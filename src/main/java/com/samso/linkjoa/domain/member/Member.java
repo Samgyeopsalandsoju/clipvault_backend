@@ -1,4 +1,4 @@
-package com.samso.linkjoa.domain;
+package com.samso.linkjoa.domain.member;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
