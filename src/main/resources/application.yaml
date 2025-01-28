@@ -21,9 +21,18 @@ spring:
         connection:
           isolation: 3
         format_sql: true
-  web:
-    resources:
-      add-mappings: false
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: samgyeopjoa@gmail.com
+    password: mhvqizlobtavojpc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 logging:
   level:

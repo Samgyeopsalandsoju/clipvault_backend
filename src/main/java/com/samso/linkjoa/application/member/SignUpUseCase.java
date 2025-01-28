@@ -1,18 +1,16 @@
 package com.samso.linkjoa.application.member;
 
 import com.samso.linkjoa.core.Utility.Encryptor;
-import com.samso.linkjoa.domain.Member;
-import com.samso.linkjoa.domain.MemberRepository;
+import com.samso.linkjoa.domain.member.Member;
+import com.samso.linkjoa.domain.member.MemberRepository;
 //import com.samso.linkjoa.infrastructure.external.SSHDatabaseConnection;
-import com.samso.linkjoa.presentation.member.request.SignUp;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-@Component
+@Service
 @AllArgsConstructor
 public class SignUpUseCase {
     private final MemberRepository memberRepository;
