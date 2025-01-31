@@ -31,4 +31,17 @@ public class Encryptor {
             throw new RuntimeException("Encryption error", e);
         }
     }
+
+    public static String twoWayDecrypt(String text){
+        try{
+            byte[] decodedBytes = Base64.getDecoder().decode(text);
+            SecretKeySpec keySpec = new SecretKeySpec(AES_SECRET_KEY.getBytes(), AES_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, keySpec);
+            byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+            return new String(decryptedBytes);
+        } catch(Exception e) {
+            throw new RuntimeException("Decryption error", e);
+        }
+    }
 }
