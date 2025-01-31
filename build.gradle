@@ -31,6 +31,8 @@ dependencies {
 	implementation 'com.jcraft:jsch:0.1.55'
 	implementation 'org.springframework.security:spring-security-core'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	//implementation('io.lettuce.core:lettuce-core')
 	//implementation 'org.slf4j:slf4j-api:2.0.0-alpha5'
 	//implementation 'ch.qos.logback:logback-classic:1.4.12'
 	compileOnly 'org.projectlombok:lombok'
