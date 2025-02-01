@@ -35,7 +35,7 @@ spring:
             enable: true
   data:
     redis:
-      host: 3.38.3.75
+      host: 43.201.166.174
       port: 6379
 
 logging:
