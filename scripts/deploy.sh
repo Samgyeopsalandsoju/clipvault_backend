@@ -8,7 +8,7 @@ DEPLOY_PATH="/home/ec2-user/backend/deploy"
 #echo "✅ Deploying version: $DEPLOY_VERSION"
 
 # 기존 배포 파일 삭제
-#rm -rf $DEPLOY_PATH/*
+rm -rf $DEPLOY_PATH/*
 
 # S3에서 최신 배포 파일 다운로드
 #aws s3 cp s3://$S3_BUCKET/deploy/clipVault_backend_${DEPLOY_VERSION}.zip $S3_PATH/
