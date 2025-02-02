@@ -48,8 +48,13 @@ jobs:
     - name: check File
       run: pwd; ls -al ./; cd ./outputs; ls -al ./;
       
+    - name: Prepare deployment package (JAR + appspec.yml)
+      run: |
+        JAR_FILE_PATH=./outputs/clipVault_backend.jar
+        APP_SPEC_PATH=appspec.yml
+        
     - name: Make zip file
-      run: zip -r ./outputs/clipVault_backend_${{ github.sha }}.zip ./outputs/clipVault_backend.jar
+      run: zip -r ./outputs/clipVault_backend_${{ github.sha }}.zip $JAR_FILE_PATH $APP_SPEC_PATH
       shell: bash
 
     - name: Upload build artifact
