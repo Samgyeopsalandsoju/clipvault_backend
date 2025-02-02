@@ -5,15 +5,7 @@ files:
     destination: /home/ec2-user/backend/deploy/
 
 hooks:
-  BeforeInstall:
-    - location: /bin/true
-  Install:
-    - location: /bin/true
   AfterInstall:
     - location: scripts/deploy.sh
       timeout: 300
       runas: ec2-user
-  ApplicationStart:
-    - location: /bin/true
-  ValidateService:
-    - location: /bin/true
