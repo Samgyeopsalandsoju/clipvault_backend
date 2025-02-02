@@ -43,7 +43,7 @@ jobs:
       run: chmod +x ./gradlew
     
     - name: Build with Gradle
-      run: ./gradlew clean build 
+      run: ./gradlew clean build -Dspring.profiles.active=prod
       env:
         SPRING_PROFILES_ACTIVE: prod
 
