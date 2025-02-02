@@ -13,6 +13,11 @@ java {
 	}
 }
 
+jar {
+	archiveFileName = 'clipVault_backend.jar'  // 생성할 파일 이름 설정
+	destinationDirectory = file("${project.rootDir}/outputs")  // 생성된 파일을 저장할 경로 설정
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
