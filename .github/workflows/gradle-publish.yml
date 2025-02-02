@@ -45,11 +45,13 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build -Dspring.profiles.active=prod
 
+    - name: Run chmod to script
+      run: cd ./scripts; ls -al; chmod 755 ./ ;ls -al;
     - name: check File
       run: pwd; ls -al ./; cd ./outputs; ls -al ./;
       
     #- name: Prepare deployment package (JAR + appspec.yml)
-      #run: |
+      #run: 
       #  #JAR_FILE_PATH=./outputs/clipVault_backend.jar
       #  APP_SPEC_PATH=./appspec.yml
       #  ls $JAR_FILE_PATH
