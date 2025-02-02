@@ -52,6 +52,8 @@ jobs:
       run: |
         JAR_FILE_PATH=./outputs/clipVault_backend.jar
         APP_SPEC_PATH=appspec.yml
+        echo "11 : " $JAR_FILE_PATH
+        echo "22 : " $APP_SPEC_PATH
         
     - name: Make zip file
       run: zip -r ./outputs/clipVault_backend_${{ github.sha }}.zip $JAR_FILE_PATH $APP_SPEC_PATH
