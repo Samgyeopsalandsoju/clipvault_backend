@@ -51,7 +51,8 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: check File
-      run: ls -al ./
+      run: pwd; ls -al ./; cd ./src; ls -al ./;
+
     - name: Upload to S3
       run: aws s3 cp --region ap-northeast-2 ./clipVault_backend.zip s3://$S3_BUCKET_NAME/backend/clipVault_backend.zip
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
