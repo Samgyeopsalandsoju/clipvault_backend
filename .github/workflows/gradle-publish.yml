@@ -72,7 +72,7 @@ jobs:
         name: build-artifact
         path: ./outputs
         
-    - name: Deliver to AWS S3
+    - name: configure AWS S3
       uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -90,9 +90,16 @@ jobs:
       packages: write
       
     steps:
+    - name: configure AWS codeDeploy
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}  
+        
     - name: Trigger CodeDeploy
-      run: LATEST_FILE=$(aws s3 ls s3://$S3_BUCKET_NAME/backend/ | sort | tail -n 1 | awk '{print $4}')
-        echo "LATEST_FILE=$LATEST_FILE"
+      run: LATEST_FILE=$(aws s3 ls s3://$S3_BUCKET_NAME/backend/ | sort | tail -n 1 | awk '{print $4}');
+        echo "LATEST_FILE=$LATEST_FILE";
         aws deploy create-deployment \
           --application-name $CD_APPLICATION_NAME \
           --deployment-group-name $CD_DEPLOYMENT_GROUP \
