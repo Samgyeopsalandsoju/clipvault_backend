@@ -57,7 +57,7 @@ jobs:
         
         
     - name: Make zip file
-      run: zip -r ./outputs/clipVault_backend_${{ github.sha }}.zip ./outputs/clipVault_backend.jar ./appspec.yml ./scripts
+      run: zip -j ./outputs/clipVault_backend_${{ github.sha }}.zip ./outputs/clipVault_backend.jar ./appspec.yml ./scripts
       shell: bash
 
     - name: Upload build artifact
