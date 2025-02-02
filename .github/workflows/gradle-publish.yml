@@ -54,11 +54,11 @@ jobs:
       run: pwd; ls -al ./; cd ./outputs; ls -al ./;
       
     - name: Make zip file
-      run: zip -r ./outputs/clipVault_backend.zip ./outputs/clipVault_backend.jar
+      run: zip -r ./outputs/clipVault_backend_${{ github.sha }}.zip ./outputs/clipVault_backend.jar
       shell: bash
       
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./outputs/clipVault_backend.zip s3://$S3_BUCKET_NAME/backend/clipVault_backend.zip
+      run: aws s3 cp --region ap-northeast-2 ./outputs/clipVault_backend_${{ github.sha }}.zip s3://$S3_BUCKET_NAME/backend/clipVault_backend_${{ github.sha }}.zip
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
     #- name: Publish to GitHub Packages
