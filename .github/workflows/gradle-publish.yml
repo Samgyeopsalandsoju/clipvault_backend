@@ -58,10 +58,16 @@ jobs:
     - name: Make zip file
       run: zip -r ./outputs/clipVault_backend_${{ github.sha }}.zip ./outputs/clipVault_backend.jar
       shell: bash
-      
+  
+  s3upload:
+    runs-on: ubuntu-latest
+    steps:
     - name: Upload to S3
       run: aws s3 cp --region ap-northeast-2 ./outputs/clipVault_backend_${{ github.sha }}.zip s3://$S3_BUCKET_NAME/backend/clipVault_backend_${{ github.sha }}.zip
 
+  codeDeploy:
+    runs-on: ubuntu-latest
+    steps:
     - name: Trigger CodeDeploy
       run: LATEST_FILE=$(aws s3 ls s3://$S3_BUCKET_NAME/backend/ | sort | tail -n 1 | awk '{print $4}')
         echo "LATEST_FILE=$LATEST_FILE"
