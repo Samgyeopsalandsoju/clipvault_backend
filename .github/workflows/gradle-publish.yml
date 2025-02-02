@@ -102,7 +102,7 @@ jobs:
         aws deploy create-deployment \
           --application-name ${{ env.CD_APPLICATION_NAME}} \
           --deployment-group-name ${{ env.CD_DEPLOYMENT_GROUP }} \
-          --s3-location bucket=${{ env.S3_BUCKET_NAME}},key=backend/clipVault_beckend_${{ github.sha }}.zip,bundleType=zip
+          --s3-location bucket=${{ env.S3_BUCKET_NAME}},key=backend/clipVault_backend_${{ github.sha }}.zip,bundleType=zip
           
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
