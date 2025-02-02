@@ -15,6 +15,8 @@ on:
 
 env:
   S3_BUCKET_NAME: s3-clipvault
+  CD_APPLICATION_NAME: codeDeploy-clipVault
+  CD_DEPLOYMENT_GROUP: codeDeploy-clipVault-backend
 
 jobs:
   build:
@@ -59,6 +61,14 @@ jobs:
       
     - name: Upload to S3
       run: aws s3 cp --region ap-northeast-2 ./outputs/clipVault_backend_${{ github.sha }}.zip s3://$S3_BUCKET_NAME/backend/clipVault_backend_${{ github.sha }}.zip
+
+    - name: Trigger CodeDeploy
+      run: LATEST_FILE=$(aws s3 ls s3://$S3_BUCKET_NAME/backend/ | sort | tail -n 1 | awk '{print $4}')
+        echo "LATEST_FILE=$LATEST_FILE"
+        aws deploy create-deployment \
+          --application-name $CD_APPLICATION_NAME \
+          --deployment-group-name $CD_DEPLOYMENT_GROUP \
+          --s3-location bucket=$S3_BUCKET_NAME,key=backend/$LATEST_FILE,bundleType=zip
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
     #- name: Publish to GitHub Packages
