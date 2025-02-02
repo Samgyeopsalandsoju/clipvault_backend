@@ -38,7 +38,7 @@ jobs:
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
     - name: Run chmod to make gradlew executable
-    - run: chmod +x ./gradlew
+      run: chmod +x ./gradlew
     
     - name: Build with Gradle
       run: ./gradlew build -Dspring.profiles.active=prod
