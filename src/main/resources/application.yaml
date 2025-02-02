@@ -1,16 +1,8 @@
-spring:
-  datasource:
-    #url: jdbc:mysql://localhost:3306/linkjoaDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&maxAllowedPacket=16777215
-    url: jdbc:mysql://localhost:3307/linkjoaDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&maxAllowedPacket=16777215
-    username: linkjoa_admin
-    password: linkjoa123!
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 10
-      connection-timeout: 30000
-      auto-commit: true
-      minimum-idle: 5
 
+spring:
+  profiles:
+    active: dev
+    
   jpa:
     database: mysql
     hibernate:
@@ -42,3 +34,6 @@ logging:
   level:
     org.springframework.jdbc.core: DEBUG
     org.hibernate.sql: DEBUG
+
+server:
+  port: 8081
