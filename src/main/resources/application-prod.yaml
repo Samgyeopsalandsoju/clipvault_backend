@@ -9,3 +9,8 @@ spring:
       connection-timeout: 30000
       auto-commit: true
       minimum-idle: 5
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
