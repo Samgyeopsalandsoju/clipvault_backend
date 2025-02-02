@@ -35,7 +35,7 @@ jobs:
         distribution: 'temurin'
         #server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         #settings-path: ${{ github.workspace }} # location for the settings.xml file
-
+        
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
@@ -43,13 +43,17 @@ jobs:
       run: chmod +x ./gradlew
     
     - name: Build with Gradle
-      run: ./gradlew build -Dspring.profiles.active=prod
+      run: ./gradlew clean build -Dspring.profiles.active=prod
+      env:
+        SPRING_PROFILES_ACTIVE: prod
 
+    - name: Run chmod to script
+      run: cd ./scripts; ls -al; chmod +x ./* ;ls -al;
     - name: check File
       run: pwd; ls -al ./; cd ./outputs; ls -al ./;
       
     #- name: Prepare deployment package (JAR + appspec.yml)
-      #run: |
+      #run: 
       #  #JAR_FILE_PATH=./outputs/clipVault_backend.jar
       #  APP_SPEC_PATH=./appspec.yml
       #  ls $JAR_FILE_PATH
