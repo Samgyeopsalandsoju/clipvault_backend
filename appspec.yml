@@ -1,6 +1,5 @@
 version: 0.0
-os:
-  - linux
+os: linux
 files:
   - source: /
     destination: /home/ec2-user/backend/deploy/
