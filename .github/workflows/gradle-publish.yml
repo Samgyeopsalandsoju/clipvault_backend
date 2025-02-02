@@ -54,7 +54,7 @@ jobs:
       run: pwd; ls -al ./; cd ./outputs; ls -al ./;
       
     - name: Make zip file
-      run: zip -r ./clipVault_backend.zip ./*
+      run: zip -r ./outputs/clipVault_backend.zip ./outputs/clipVault_backend.jar
       shell: bash
       
     - name: Upload to S3
