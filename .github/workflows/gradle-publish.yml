@@ -48,13 +48,14 @@ jobs:
       with:
         files: ${{ env.APPLICATION_PATH }}
       env:
-        spring.profiles.active: prod
+        spring.profiles.active: 'prod'
         
     - name: Build with Gradle
       run: ./gradlew clean build 
 
     - name: Run chmod to script
       run: cd ./scripts; ls -al; chmod +x ./* ;ls -al;
+      
     - name: check File
       run: pwd; ls -al ./; cd ./outputs; ls -al ./;
       
