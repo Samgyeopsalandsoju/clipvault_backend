@@ -43,6 +43,9 @@ jobs:
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
 
+    - name: error check
+      run: pwd; ls -al;
+      
     - name: Set gradle build active
       uses: microsoft/variable-substitution@v1
       with:
