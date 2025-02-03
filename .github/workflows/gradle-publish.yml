@@ -17,7 +17,6 @@ env:
   S3_BUCKET_NAME: s3-clipvault
   CD_APPLICATION_NAME: codeDeploy-clipVault
   CD_DEPLOYMENT_GROUP: codeDeploy-clipVault-backend
-  APPLICATION_PATH: ./src/main/resources/application.yml
 
 jobs:
   build:
@@ -38,7 +37,7 @@ jobs:
         #settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Set gradle build active
-      run: ls -al ./src/main/resources/; yq eval '.spring.profiles.active = "prod"' -i ${ env.APPLICATION_PATH }
+      run: yq eval '.spring.profiles.active = "prod"' -i ./src/main/resources/application.yml
         
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
