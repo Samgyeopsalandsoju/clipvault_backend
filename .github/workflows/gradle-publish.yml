@@ -17,6 +17,7 @@ env:
   S3_BUCKET_NAME: s3-clipvault
   CD_APPLICATION_NAME: codeDeploy-clipVault
   CD_DEPLOYMENT_GROUP: codeDeploy-clipVault-backend
+  APPLICATION_PATH: ./src/main/resources/application.yml
 
 jobs:
   build:
@@ -41,11 +42,16 @@ jobs:
 
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
-    
-    - name: Build with Gradle
-      run: ./gradlew clean build -Dspring.profiles.active=prod
+
+    - name: Set gradle build active
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: ${{ env.APPLICATION_PATH }}
       env:
-        SPRING_PROFILES_ACTIVE: prod
+        spring.profiles.active: prod
+        
+    - name: Build with Gradle
+      run: ./gradlew clean build 
 
     - name: Run chmod to script
       run: cd ./scripts; ls -al; chmod +x ./* ;ls -al;
