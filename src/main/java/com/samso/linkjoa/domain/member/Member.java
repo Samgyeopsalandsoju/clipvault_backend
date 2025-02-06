@@ -1,12 +1,14 @@
 package com.samso.linkjoa.domain.member;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
+@Getter
 @NoArgsConstructor
 @Entity
 @Table
