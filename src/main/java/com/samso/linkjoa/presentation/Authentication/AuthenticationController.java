@@ -15,13 +15,13 @@ public class AuthenticationController {
     private final AuthenticationUseCase authenticationUseCase;
 
     @PostMapping("/init")
-    public @ResponseBody ApiResponse<String> initAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest){
+    public @ResponseBody String initAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest){
 
         return authenticationUseCase.initAuthentication(request, authenticationRequest.getMail());
     }
 
     @PostMapping("/verify")
-    public @ResponseBody ApiResponse<String> verifyAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest){
+    public @ResponseBody String verifyAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest){
 
         return authenticationUseCase.verifyAuthentication(request, authenticationRequest);
     }

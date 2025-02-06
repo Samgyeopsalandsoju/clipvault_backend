@@ -3,6 +3,7 @@ package com.samso.linkjoa.application.Authentication;
 import com.samso.linkjoa.core.Utility.Encryptor;
 import com.samso.linkjoa.core.common.ApiResponse;
 import com.samso.linkjoa.domain.Authentication.Authentication;
+import com.samso.linkjoa.domain.Authentication.AuthenticationEnum;
 import com.samso.linkjoa.domain.mail.MailSender;
 import com.samso.linkjoa.infrastructure.redis.RedisRepository;
 import com.samso.linkjoa.presentation.Authentication.request.AuthenticationRequest;
@@ -23,7 +24,7 @@ public class AuthenticationUseCase {
     private final Authentication authentication;
     private final RedisRepository redisRepository;
     private final MailSender mailSender;
-    public ApiResponse<String> initAuthentication(HttpServletRequest request, String mail){
+    public String initAuthentication(HttpServletRequest request, String mail){
 
         //인증번호 생성
         Authentication authenticationInfo = authentication.generateAuthCode(mail);
@@ -41,14 +42,14 @@ public class AuthenticationUseCase {
         String body = "인증번호 [" + authenticationInfo.getAuthCode()+ "]를 입력하세요 (유효시간 : 3분)";
         if(!mailSender.sendMail(authenticationInfo.getMail(), subject, body)){
             //TODO response 처리 수정 필요 - success 로 전달됨
-            return new ApiResponse<>("fail","인증번호 발송에 실패하였습니다");
+            return AuthenticationEnum.SEND_AUTH_INFO_FAIL.getValue();
         }
         //session 저장
         request.getSession().setAttribute("mailAuth", authKey);
-        return new ApiResponse<>("success", "인증번호를 발송하였습니다.");
+        return AuthenticationEnum.SEND_AUTH_INFO_SUCCESS.getValue();
     }
 
-    public ApiResponse<String> verifyAuthentication(HttpServletRequest request, AuthenticationRequest authenticationRequest) {
+    public String verifyAuthentication(HttpServletRequest request, AuthenticationRequest authenticationRequest) {
 
         Assert.notNull(request.getSession().getAttribute("mailAuth"), "인증 정보가 없습니다. 인증을 다시 시도해주세요.");
         String authKey = request.getSession().getAttribute("mailAuth").toString();
@@ -59,9 +60,9 @@ public class AuthenticationUseCase {
                 .filter(data -> authenticationRequest.getMail().equals(Encryptor.twoWayDecrypt(data.get("mail").toString()))
                                 && authenticationRequest.getAuthCode().equals(Encryptor.twoWayDecrypt(data.get("code").toString())))
                 //TODO Exception 수정필요
-                .orElseThrow(() -> new IllegalArgumentException("인증정보가 불일치합니다."));
+                .orElseThrow(() -> new IllegalArgumentException(AuthenticationEnum.AUTH_FAIL.getValue()));
 
         request.getSession().setAttribute("verifiedMail", storedData.get().get("mail"));
-        return new ApiResponse<>("success", "인증에 성공했습니다.");
+        return AuthenticationEnum.AUTH_SUCCESS.getValue();
     }
 }
