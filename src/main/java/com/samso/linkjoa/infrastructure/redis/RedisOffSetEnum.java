@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum RedisOffSetEnum {
 
-    AuthSignUp(180);
+    SIGN_UP(180);
 
     private final long value;
 }
