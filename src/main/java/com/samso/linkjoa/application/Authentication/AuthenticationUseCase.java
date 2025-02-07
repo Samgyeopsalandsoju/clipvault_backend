@@ -5,6 +5,7 @@ import com.samso.linkjoa.core.common.ApiResponse;
 import com.samso.linkjoa.domain.Authentication.Authentication;
 import com.samso.linkjoa.domain.Authentication.AuthenticationEnum;
 import com.samso.linkjoa.domain.mail.MailSender;
+import com.samso.linkjoa.infrastructure.redis.RedisOffSetEnum;
 import com.samso.linkjoa.infrastructure.redis.RedisRepository;
 import com.samso.linkjoa.presentation.Authentication.request.AuthenticationRequest;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class AuthenticationUseCase {
         Map<String, String> authData = new HashMap<>();
         authData.put("mail", Encryptor.twoWayEncrypt(authenticationInfo.getMail()));
         authData.put("code", Encryptor.twoWayEncrypt(String.valueOf(authenticationInfo.getAuthCode())));
-        redisRepository.saveHashData(authKey, authData, 180);
+        redisRepository.saveHashData(authKey, authData, RedisOffSetEnum.SIGN_UP.getValue());
         //redisRepository.saveDate(authKey, authValue, RedisOffSetEnum.AuthSignUp.getValue());
 
         //메일 발송
