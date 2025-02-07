@@ -15,7 +15,7 @@ public class AuthenticationController {
     private final AuthenticationUseCase authenticationUseCase;
 
     @PostMapping("/init")
-    public @ResponseBody String initAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest){
+    public @ResponseBody String initAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
         return authenticationUseCase.initAuthentication(request, authenticationRequest.getMail());
     }
