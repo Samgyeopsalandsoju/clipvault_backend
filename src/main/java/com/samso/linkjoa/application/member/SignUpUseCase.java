@@ -4,10 +4,10 @@ import com.samso.linkjoa.core.Utility.Encryptor;
 import com.samso.linkjoa.domain.member.Member;
 import com.samso.linkjoa.domain.member.MemberEnum;
 import com.samso.linkjoa.domain.member.MemberRepository;
-//import com.samso.linkjoa.infrastructure.external.SSHDatabaseConnection;
 import com.samso.linkjoa.presentation.member.request.SignUpRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,10 +36,16 @@ public class SignUpUseCase {
                 .orElseThrow(() -> new AuthenticationException(MemberEnum.DIFFERENT_MAIL_OF_VERIFIED_MAIL.getValue()) {
                 });
 
+        String encryptedMail = Encryptor.twoWayEncrypt(signUpRequest.getMail());
+        //이미 가입한 회원인지 확인
+        memberRepository.findByMail(encryptedMail)
+                .map(member -> new DuplicateKeyException(MemberEnum.ALREADY_JOINED_USER.getValue()));
+
         //회원가입 save
-        Member member = new Member(Encryptor.twoWayEncrypt(signUpRequest.getMail()), Encryptor.oneWayEncrypt(signUpRequest.getPassword()));
+        Member member = new Member(encryptedMail, Encryptor.oneWayEncrypt(signUpRequest.getPassword()));
         memberRepository.save(member);
 
+        request.getSession().removeAttribute("mailAuth");
         return MemberEnum.SIGN_UP_SUCCESS.getValue();
     }
 }
