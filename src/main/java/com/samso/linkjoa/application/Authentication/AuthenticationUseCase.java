@@ -1,7 +1,8 @@
 package com.samso.linkjoa.application.Authentication;
 
 import com.samso.linkjoa.core.Utility.Encryptor;
-import com.samso.linkjoa.core.common.ApiResponse;
+import com.samso.linkjoa.core.common.ApplicationInternalException;
+import com.samso.linkjoa.core.springSecurity.UserDetailsServiceImpl;
 import com.samso.linkjoa.domain.Authentication.Authentication;
 import com.samso.linkjoa.domain.Authentication.AuthenticationEnum;
 import com.samso.linkjoa.domain.mail.MailSender;
@@ -25,6 +26,8 @@ public class AuthenticationUseCase {
     private final Authentication authentication;
     private final RedisRepository redisRepository;
     private final MailSender mailSender;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
+
     public String initAuthentication(HttpServletRequest request, String mail) throws Exception {
 
         //인증번호 생성
@@ -42,16 +45,18 @@ public class AuthenticationUseCase {
         String subject = "[인증번호 발송]";
         String body = "인증번호 [" + authenticationInfo.getAuthCode()+ "]를 입력하세요 (유효시간 : 3분)";
         if(!mailSender.sendMail(authenticationInfo.getMail(), subject, body)){
-            throw new IllegalArgumentException(AuthenticationEnum.SEND_AUTH_INFO_FAIL.getValue());
+            throw new ApplicationInternalException(AuthenticationEnum.SEND_AUTH_INFO_FAIL.getValue(),"Failed to send authentication number");
         }
         //session 저장
         request.getSession().setAttribute("mailAuth", authKey);
         return AuthenticationEnum.SEND_AUTH_INFO_SUCCESS.getValue();
     }
 
-    public String verifyAuthentication(HttpServletRequest request, AuthenticationRequest authenticationRequest) {
+    public String verifyAuthentication(HttpServletRequest request, AuthenticationRequest authenticationRequest) throws Exception {
 
-        Assert.notNull(request.getSession().getAttribute("mailAuth"), AuthenticationEnum.NOT_EXIST_AUTH_INFO.getValue());
+        //Assert.notNull(request.getSession().getAttribute("mailAuth"), AuthenticationEnum.NOT_EXIST_AUTH_INFO.getValue());
+        Optional.ofNullable(request.getSession().getAttribute("mailAuth"))
+                .orElseThrow(() -> new ApplicationInternalException(AuthenticationEnum.NOT_EXIST_AUTH_INFO.getValue(), "no history of authentication attempts"));
         String authKey = request.getSession().getAttribute("mailAuth").toString();
 
         Optional<Map<Object,Object>> storedData = redisRepository.getHashData(authKey);
@@ -59,7 +64,7 @@ public class AuthenticationUseCase {
         storedData
                 .filter(data -> authenticationRequest.getMail().equals(Encryptor.twoWayDecrypt(data.get("mail").toString()))
                                 && authenticationRequest.getAuthCode().equals(Encryptor.twoWayDecrypt(data.get("code").toString())))
-                .orElseThrow(() -> new IllegalArgumentException(AuthenticationEnum.AUTH_FAIL.getValue()));
+                .orElseThrow(() -> new ApplicationInternalException(AuthenticationEnum.AUTH_FAIL.getValue(), "Authentication failed"));
 
         request.getSession().setAttribute("verifiedMail", storedData.get().get("mail"));
         return AuthenticationEnum.AUTH_SUCCESS.getValue();
