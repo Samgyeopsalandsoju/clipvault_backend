@@ -8,17 +8,17 @@ import java.util.Base64;
 
 public class Encryptor {
 
-    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private static final String AES_ALGORITHM = "AES";
     private static final String AES_SECRET_KEY = "7254527391128452";
 
-    public static String oneWayEncrypt(String text){
-        return passwordEncoder.encode(text);
-    }
+//    public static String oneWayEncrypt(String text){
+//        return passwordEncoder.encode(text);
+//    }
 
-    public static boolean matchOneWay(String plainText, String encryptedText){
-        return passwordEncoder.matches(plainText, encryptedText);
-    }
+//    public static boolean matchOneWay(String plainText, String encryptedText){
+//        return passwordEncoder.matches(plainText, encryptedText);
+//    }
 
     public static String twoWayEncrypt(String text){
         try {
