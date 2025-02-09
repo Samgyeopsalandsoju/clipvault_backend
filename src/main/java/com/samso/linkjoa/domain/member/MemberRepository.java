@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     public Member save(Member member);
     public Optional<Member> findByMail(String mail);
+    public Optional<Member> findById(long id);
 }
