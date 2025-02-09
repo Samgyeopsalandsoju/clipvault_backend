@@ -1,7 +1,7 @@
 package com.samso.linkjoa.core.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.samso.linkjoa.core.common.ApiResponse;
+import com.samso.linkjoa.core.common.response.ApiResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpInputMessage;

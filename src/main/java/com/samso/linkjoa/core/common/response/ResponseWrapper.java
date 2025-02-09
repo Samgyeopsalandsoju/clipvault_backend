@@ -1,5 +1,7 @@
-package com.samso.linkjoa.core.common;
+package com.samso.linkjoa.core.common.response;
 
+import com.samso.linkjoa.core.common.response.ApiResponse;
+import com.samso.linkjoa.core.common.response.ErrorResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -21,9 +23,14 @@ public class ResponseWrapper implements ResponseBodyAdvice<Object> {
             , MediaType selectedContentType
             , Class<? extends HttpMessageConverter<?>> selectedConverterType
             , ServerHttpRequest request, ServerHttpResponse response) {
+
+        if(body instanceof FailResponse){
+            return new ApiResponse<>("FAIL", body);
+        }
+
         if(body instanceof ErrorResponse){
             return new ApiResponse<>("ERROR", body);
         }
-        return  new ApiResponse<>("SUCCESS", body);
+        return new ApiResponse<>("SUCCESS", body);
     }
 }
