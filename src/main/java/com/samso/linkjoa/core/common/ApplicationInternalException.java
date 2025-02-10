@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Getter
-public class ApplicationInternalException extends Exception{
+public class ApplicationInternalException extends RuntimeException{
 
     private String code;
     private String message;
