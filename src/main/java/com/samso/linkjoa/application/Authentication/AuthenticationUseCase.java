@@ -26,15 +26,14 @@ public class AuthenticationUseCase {
 
     public String initAuthentication(String mail) throws Exception {
 
-        //인증번호 생성
+        //인증정보 생성
         Authentication authenticationInfo = authentication.generateAuthCode(mail);
 
         //인증정보 redis 저장
-        String authKey = UUID.randomUUID().toString();
         Map<String, String> authData = new HashMap<>();
         authData.put("mail", Encryptor.twoWayEncrypt(authenticationInfo.getMail()));
         authData.put("code", Encryptor.twoWayEncrypt(String.valueOf(authenticationInfo.getAuthCode())));
-        redisRepository.saveHashData(authKey, authData, RedisOffSetEnum.SIGN_UP.getValue());
+        redisRepository.saveHashData(authenticationInfo.getAuthKey(), authData, RedisOffSetEnum.SIGN_UP.getValue());
 
         //메일 발송
         String subject = "[인증번호 발송]";
@@ -43,7 +42,7 @@ public class AuthenticationUseCase {
             throw new ApplicationInternalException(AuthenticationEnum.SEND_AUTH_INFO_FAIL.getValue(),"Failed to send authentication number");
         }
 
-        return authKey;
+        return authenticationInfo.getAuthKey();
     }
 
     public String verifyAuthentication(AuthenticationRequest authenticationRequest) throws Exception {
@@ -60,12 +59,13 @@ public class AuthenticationUseCase {
         storedData.map(m-> m.get("mail"))
                         .orElseThrow(() -> new ApplicationInternalException(AuthenticationEnum.EXPIRED_AUTH_INFO.getValue(), "Expired Authentication mail"));
 
-        //입력한 mai-code 와 redis 저장된 mail-code 비교
+        String mail = storedData.get().get("mail").toString();
+        //입력한 mail-code 와 redis 저장된 mail-code 비교
         storedData
-                .filter(data -> authenticationRequest.getMail().equals(Encryptor.twoWayDecrypt(data.get("mail").toString()))
+                .filter(data -> authenticationRequest.getMail().equals(Encryptor.twoWayDecrypt(mail))
                                 && authenticationRequest.getAuthCode().equals(Encryptor.twoWayDecrypt(data.get("code").toString())))
                 .orElseThrow(() -> new ApplicationInternalException(AuthenticationEnum.AUTH_FAIL.getValue(), "Authentication failed"));
 
-        return AuthenticationEnum.AUTH_SUCCESS.getValue();
+        return mail;
     }
 }

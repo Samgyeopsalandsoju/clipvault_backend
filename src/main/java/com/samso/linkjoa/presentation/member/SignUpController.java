@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("signUp")
 public class SignUpController {
 
     private final SignUpUseCase signUpUseCase;
 
-    @PostMapping("/signUp.do")
+    @PostMapping("/v1/member/sign-up")
     public @ResponseBody String signUp(HttpServletRequest request, @RequestBody SignUpRequest signUpRequest) throws Exception{
 
         return signUpUseCase.signUp(request, signUpRequest);

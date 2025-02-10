@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/login")
 public class LoginController {
 
     private final LoginUseCase loginUseCase;
@@ -21,7 +20,7 @@ public class LoginController {
 //    }
 
     //로그인 후 JWT 토큰 발급
-    @PostMapping("/authenticate.do")
+    @PostMapping("/v1/member/login")
     public String authenticate(@RequestBody LoginRequest loginRequest){
         return loginUseCase.authenticate(loginRequest);
     }

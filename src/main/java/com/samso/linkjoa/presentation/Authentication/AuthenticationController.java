@@ -9,18 +9,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/auth")
 public class AuthenticationController {
 
     private final AuthenticationUseCase authenticationUseCase;
 
-    @PostMapping("/init.do")
+    @PostMapping("/v1/auth/mail-sending")
     public @ResponseBody String initAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
         return authenticationUseCase.initAuthentication(authenticationRequest.getMail());
     }
 
-    @PostMapping("/verify.do")
+    @PostMapping("/v1/auth/mail-verification")
     public @ResponseBody String verifyAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest) throws Exception{
 
         return authenticationUseCase.verifyAuthentication(authenticationRequest);
