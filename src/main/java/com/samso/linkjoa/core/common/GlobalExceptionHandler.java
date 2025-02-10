@@ -45,8 +45,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             stactTraces = Arrays.asList(e.getStackTrace());
         }
 
-        //FIXME
-        System.out.println("error : " + e.getMessage());
         e.printStackTrace();
         return new ErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -8,7 +8,6 @@ import com.samso.linkjoa.domain.mail.MailSender;
 import com.samso.linkjoa.infrastructure.redis.RedisOffSetEnum;
 import com.samso.linkjoa.infrastructure.redis.RedisRepository;
 import com.samso.linkjoa.presentation.Authentication.request.AuthenticationRequest;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +38,7 @@ public class AuthenticationUseCase {
 
         //메일 발송
         String subject = "[인증번호 발송]";
-        String body = "인증번호 [" + authenticationInfo.getAuthCode()+ "]를 입력하세요 (유효시간 : 3분)";
+        String body = "인증번호 [" + authenticationInfo.getAuthCode()+ "]를 입력하세요 (유효시간 : 5분)";
         if(!mailSender.sendMail(authenticationInfo.getMail(), subject, body)){
             throw new ApplicationInternalException(AuthenticationEnum.SEND_AUTH_INFO_FAIL.getValue(),"Failed to send authentication number");
         }
@@ -49,16 +48,19 @@ public class AuthenticationUseCase {
 
     public String verifyAuthentication(AuthenticationRequest authenticationRequest) throws Exception {
 
+        //인증 키 있는지 확인
         //Assert.notNull(request.getSession().getAttribute("mailAuth"), AuthenticationEnum.NOT_EXIST_AUTH_INFO.getValue());
-        //FIXME 확인
-        System.out.println("check 1 : " + authenticationRequest.toString());
         Optional.ofNullable(authenticationRequest.getAuthKey())
                 .orElseThrow(() -> new ApplicationInternalException(AuthenticationEnum.NOT_EXIST_AUTH_INFO.getValue(), "no history of authentication attempts"));
 
+        //레디스 조회
         Optional<Map<Object,Object>> storedData = redisRepository.getHashData(authenticationRequest.getAuthKey());
-        //FIXME 확인
-        System.out.println("check 1 : "  + storedData.toString());
 
+        //레디스 데이터 있는지 조회
+        storedData.map(m-> m.get("mail"))
+                        .orElseThrow(() -> new ApplicationInternalException(AuthenticationEnum.EXPIRED_AUTH_INFO.getValue(), "Expired Authentication mail"));
+
+        //입력한 mai-code 와 redis 저장된 mail-code 비교
         storedData
                 .filter(data -> authenticationRequest.getMail().equals(Encryptor.twoWayDecrypt(data.get("mail").toString()))
                                 && authenticationRequest.getAuthCode().equals(Encryptor.twoWayDecrypt(data.get("code").toString())))
