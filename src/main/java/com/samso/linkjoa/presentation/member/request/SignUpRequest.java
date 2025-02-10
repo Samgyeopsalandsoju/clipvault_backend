@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public class SignUpRequest {
     private String mail;
     private String password;
+    private String verifiedMail;
 }

@@ -28,15 +28,14 @@ public class SignUpUseCase {
     public String signUp(HttpServletRequest request, SignUpRequest signUpRequest) throws Exception{
 
         //세션에서 메일정보확인
-        Object verifiedMail = request.getSession().getAttribute("verifiedMail");
-
+        String mail = signUpRequest.getVerifiedMail();
         //null 체크
         //Assert.notNull(verifiedMail, MemberEnum.NOT_EXIST_VERIFY_INFO.getValue());
-        Optional.ofNullable(verifiedMail)
+        Optional.ofNullable(mail)
                 .orElseThrow(() -> new ApplicationInternalException(MemberEnum.NOT_EXIST_VERIFY_INFO.getValue(), "No mail information in session"));
 
         //인증한 메일과 회원가입 시도한 메일 정보가 일치하는지 확인
-        Optional.ofNullable(Encryptor.twoWayDecrypt(verifiedMail.toString()))
+        Optional.of(Encryptor.twoWayDecrypt(mail))
                 .filter(m -> m.equals(signUpRequest.getMail()))
                 .orElseThrow(() -> new ApplicationInternalException(MemberEnum.DIFFERENT_MAIL_OF_VERIFIED_MAIL.getValue(), "The verified email and the email information attempted to sign up do not match.") {
                 });
@@ -44,13 +43,13 @@ public class SignUpUseCase {
         String encryptedMail = Encryptor.twoWayEncrypt(signUpRequest.getMail());
         //이미 가입한 회원인지 확인
         memberRepository.findByMail(encryptedMail)
-                .map(member -> new ApplicationInternalException(MemberEnum.ALREADY_JOINED_USER.getValue(), "Already a registered member"));
+                .ifPresent(member ->
+                   {throw new ApplicationInternalException(MemberEnum.ALREADY_JOINED_USER.getValue(), "Already a registered member");});
 
         //회원가입 save
         Member member = new Member(encryptedMail, passwordEncoder.encode(signUpRequest.getPassword()), Role.USER);
         memberRepository.save(member);
 
-        request.getSession().removeAttribute("mailAuth");
         return MemberEnum.SIGN_UP_SUCCESS.getValue();
     }
 }
