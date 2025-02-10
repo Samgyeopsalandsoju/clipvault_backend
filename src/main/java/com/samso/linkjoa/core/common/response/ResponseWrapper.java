@@ -25,12 +25,12 @@ public class ResponseWrapper implements ResponseBodyAdvice<Object> {
             , ServerHttpRequest request, ServerHttpResponse response) {
 
         if(body instanceof FailResponse){
-            return new ApiResponse<>("FAIL", body);
+            return new ApiResponse<>(false, body);
         }
 
         if(body instanceof ErrorResponse){
-            return new ApiResponse<>("ERROR", body);
+            return new ApiResponse<>(false, body);
         }
-        return new ApiResponse<>("SUCCESS", body);
+        return new ApiResponse<>(true, body);
     }
 }

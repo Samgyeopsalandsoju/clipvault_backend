@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class ApiResponse<T> {
-    private String status;
+    private Boolean status;
     private T body;
 
-    public ApiResponse(String status, T body){
+    public ApiResponse(Boolean status, T body){
         this.status = status;
         this.body = body;
     }
