@@ -50,10 +50,14 @@ public class AuthenticationUseCase {
     public String verifyAuthentication(AuthenticationRequest authenticationRequest) throws Exception {
 
         //Assert.notNull(request.getSession().getAttribute("mailAuth"), AuthenticationEnum.NOT_EXIST_AUTH_INFO.getValue());
+        //FIXME 확인
+        System.out.println("check 1 : " + authenticationRequest.toString());
         Optional.ofNullable(authenticationRequest.getAuthKey())
                 .orElseThrow(() -> new ApplicationInternalException(AuthenticationEnum.NOT_EXIST_AUTH_INFO.getValue(), "no history of authentication attempts"));
 
         Optional<Map<Object,Object>> storedData = redisRepository.getHashData(authenticationRequest.getAuthKey());
+        //FIXME 확인
+        System.out.println("check 1 : "  + storedData.toString());
 
         storedData
                 .filter(data -> authenticationRequest.getMail().equals(Encryptor.twoWayDecrypt(data.get("mail").toString()))
