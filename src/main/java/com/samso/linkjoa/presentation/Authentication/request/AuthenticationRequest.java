@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class AuthenticationRequest {
+    private String authKey;
     private String mail;
     private String authCode;
 }

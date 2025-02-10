@@ -2,7 +2,6 @@ package com.samso.linkjoa.application.Authentication;
 
 import com.samso.linkjoa.core.Utility.Encryptor;
 import com.samso.linkjoa.core.common.ApplicationInternalException;
-import com.samso.linkjoa.core.springSecurity.UserDetailsServiceImpl;
 import com.samso.linkjoa.domain.Authentication.Authentication;
 import com.samso.linkjoa.domain.Authentication.AuthenticationEnum;
 import com.samso.linkjoa.domain.mail.MailSender;
@@ -12,7 +11,6 @@ import com.samso.linkjoa.presentation.Authentication.request.AuthenticationReque
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +24,8 @@ public class AuthenticationUseCase {
     private final Authentication authentication;
     private final RedisRepository redisRepository;
     private final MailSender mailSender;
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-    public String initAuthentication(HttpServletRequest request, String mail) throws Exception {
+    public String initAuthentication(String mail) throws Exception {
 
         //인증번호 생성
         Authentication authenticationInfo = authentication.generateAuthCode(mail);
@@ -39,7 +36,6 @@ public class AuthenticationUseCase {
         authData.put("mail", Encryptor.twoWayEncrypt(authenticationInfo.getMail()));
         authData.put("code", Encryptor.twoWayEncrypt(String.valueOf(authenticationInfo.getAuthCode())));
         redisRepository.saveHashData(authKey, authData, RedisOffSetEnum.SIGN_UP.getValue());
-        //redisRepository.saveDate(authKey, authValue, RedisOffSetEnum.AuthSignUp.getValue());
 
         //메일 발송
         String subject = "[인증번호 발송]";
@@ -47,26 +43,23 @@ public class AuthenticationUseCase {
         if(!mailSender.sendMail(authenticationInfo.getMail(), subject, body)){
             throw new ApplicationInternalException(AuthenticationEnum.SEND_AUTH_INFO_FAIL.getValue(),"Failed to send authentication number");
         }
-        //session 저장
-        request.getSession().setAttribute("mailAuth", authKey);
-        return AuthenticationEnum.SEND_AUTH_INFO_SUCCESS.getValue();
+
+        return authKey;
     }
 
-    public String verifyAuthentication(HttpServletRequest request, AuthenticationRequest authenticationRequest) throws Exception {
+    public String verifyAuthentication(AuthenticationRequest authenticationRequest) throws Exception {
 
         //Assert.notNull(request.getSession().getAttribute("mailAuth"), AuthenticationEnum.NOT_EXIST_AUTH_INFO.getValue());
-        Optional.ofNullable(request.getSession().getAttribute("mailAuth"))
+        Optional.ofNullable(authenticationRequest.getAuthKey())
                 .orElseThrow(() -> new ApplicationInternalException(AuthenticationEnum.NOT_EXIST_AUTH_INFO.getValue(), "no history of authentication attempts"));
-        String authKey = request.getSession().getAttribute("mailAuth").toString();
 
-        Optional<Map<Object,Object>> storedData = redisRepository.getHashData(authKey);
+        Optional<Map<Object,Object>> storedData = redisRepository.getHashData(authenticationRequest.getAuthKey());
 
         storedData
                 .filter(data -> authenticationRequest.getMail().equals(Encryptor.twoWayDecrypt(data.get("mail").toString()))
                                 && authenticationRequest.getAuthCode().equals(Encryptor.twoWayDecrypt(data.get("code").toString())))
                 .orElseThrow(() -> new ApplicationInternalException(AuthenticationEnum.AUTH_FAIL.getValue(), "Authentication failed"));
 
-        request.getSession().setAttribute("verifiedMail", storedData.get().get("mail"));
         return AuthenticationEnum.AUTH_SUCCESS.getValue();
     }
 }

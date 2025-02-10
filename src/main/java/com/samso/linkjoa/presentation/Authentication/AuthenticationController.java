@@ -17,12 +17,12 @@ public class AuthenticationController {
     @PostMapping("/init.do")
     public @ResponseBody String initAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
-        return authenticationUseCase.initAuthentication(request, authenticationRequest.getMail());
+        return authenticationUseCase.initAuthentication(authenticationRequest.getMail());
     }
 
     @PostMapping("/verify.do")
     public @ResponseBody String verifyAuth(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest) throws Exception{
 
-        return authenticationUseCase.verifyAuthentication(request, authenticationRequest);
+        return authenticationUseCase.verifyAuthentication(authenticationRequest);
     }
 }
