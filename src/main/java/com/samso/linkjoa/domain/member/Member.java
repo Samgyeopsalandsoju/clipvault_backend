@@ -1,17 +1,17 @@
 package com.samso.linkjoa.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.samso.linkjoa.core.springSecurity.Role;
+import com.samso.linkjoa.category.Category;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -38,6 +38,9 @@ public class Member {
     @Column(nullable = false, length = 10)
     private Role role = Role.USER;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Category> categoryList = new ArrayList<>();
 
     public Member(String mail, String password, Role role){
         this.mail = mail;
