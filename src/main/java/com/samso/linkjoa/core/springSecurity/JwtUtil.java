@@ -4,9 +4,13 @@ import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
+import com.samso.linkjoa.core.common.ApplicationInternalException;
+import com.samso.linkjoa.domain.member.MemberEnum;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.lang.Assert;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
@@ -42,7 +46,7 @@ public class JwtUtil {
             Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJwt(token);
+                    .parseClaimsJws(token);
             return true;
         } catch (Exception e){
             //TODO exception  처리
@@ -61,8 +65,21 @@ public class JwtUtil {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody()
-                .get("userId", Long.class);
+                .get("memberId", Long.class);
+    }
+    public String extractToken(HttpServletRequest request){
+        String bearerToken = request.getHeader("Authorization");
+        if(bearerToken != null && bearerToken.startsWith("Bearer ")){
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    public Long getMemberIdFromRequest(HttpServletRequest request){
+        String token = extractToken(request);
+        Assert.notNull(token, MemberEnum.TOKEN_IS_MISSING.getValue());
+        return getMemberIdFromToken(token);
     }
 }
