@@ -1,12 +1,10 @@
 package com.samso.linkjoa.presentation.Authentication.request;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
-@Getter
-@RequiredArgsConstructor
+@Value
 public class AuthenticationRequest {
-    private String authKey;
-    private String mail;
-    private String authCode;
+    String authKey;
+    String mail;
+    String authCode;
 }

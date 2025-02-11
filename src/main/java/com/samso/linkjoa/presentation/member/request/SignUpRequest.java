@@ -1,12 +1,10 @@
 package com.samso.linkjoa.presentation.member.request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
-@Getter
-@NoArgsConstructor
-public class SignUpRequest {
-    private String mail;
-    private String password;
-    private String verifiedMail;
+@Value
+public class SignUpRequest{
+    String mail;
+    String password;
+    String verifiedMail;
 }
