@@ -1,11 +1,15 @@
-package com.samso.linkjoa.category;
+package com.samso.linkjoa.clip;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.samso.linkjoa.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Builder
@@ -28,4 +32,8 @@ public class Category {
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Clip> clipList = new ArrayList<>();
 }

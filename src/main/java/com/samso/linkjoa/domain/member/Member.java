@@ -2,7 +2,7 @@ package com.samso.linkjoa.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.samso.linkjoa.core.springSecurity.Role;
-import com.samso.linkjoa.category.Category;
+import com.samso.linkjoa.clip.Category;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
