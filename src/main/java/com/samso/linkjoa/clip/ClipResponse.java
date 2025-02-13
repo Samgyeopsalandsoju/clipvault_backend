@@ -12,7 +12,7 @@ public class ClipResponse {
     private String title;
     private String link;
     private String visible;
-    private Long forkedCount;
+    private long forkedCount;
     private CategoryResponse category;
 
 }
