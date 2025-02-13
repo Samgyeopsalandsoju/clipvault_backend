@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class ClipUsecase {
@@ -20,5 +22,12 @@ public class ClipUsecase {
         clipService.createClip(clipRequest, memberId);
 
         return ClipEnum.CREATE_CLIP_SUCCESS.getValue();
+    }
+
+    public List<ClipResponse> getClipList(HttpServletRequest request) {
+
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
+
+        return clipService.getClipListResponse(memberId);
     }
 }

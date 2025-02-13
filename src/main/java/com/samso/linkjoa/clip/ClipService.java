@@ -4,10 +4,13 @@ import com.samso.linkjoa.domain.member.Member;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -18,7 +21,7 @@ public class ClipService {
     private ClipRepository clipRepository;
     @PersistenceContext
     private EntityManager entityManager;
-
+    private ModelMapper modelMapper;
     public void createClip(ClipRequest clipRequest, Long memberId) {
 
         Member member = entityManager.getReference(Member.class, memberId);
@@ -47,5 +50,13 @@ public class ClipService {
                             .build();
                     return categoryRepository.save(requestCategory);
                 });
+    }
+
+    public List<ClipResponse> getClipListResponse(long memberId) {
+
+        List<Clip> clipList = clipRepository.findByCategoryMemberId(memberId);
+        return  clipList.stream()
+                .map(clip -> modelMapper.map(clip, ClipResponse.class))
+                .collect(Collectors.toList());
     }
 }
