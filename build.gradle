@@ -40,6 +40,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.modelmapper:modelmapper:3.1.1'
 	//implementation('io.lettuce.core:lettuce-core')
 	//implementation 'org.slf4j:slf4j-api:2.0.0-alpha5'
 	//implementation 'ch.qos.logback:logback-classic:1.4.12'
