@@ -11,6 +11,6 @@ public interface ClipRepository extends JpaRepository<Clip, Long> {
 
     public Clip save(Clip clip);
 
-    @Query("SELECT c FROM Clip c Join FETCH c.category cate JOIN FETCH cate.member m WHERE m.id = :memberId")
+    @Query("SELECT c FROM Clip c Join FETCH c.category cate JOIN FETCH cate.member m WHERE m.id = :memberId ORDER BY c.modified_date DESC")
     List<Clip> findByCategoryMemberId(Long memberId);
 }
