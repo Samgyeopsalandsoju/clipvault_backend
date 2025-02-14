@@ -1,5 +1,6 @@
 package com.samso.linkjoa.clip;
 
+import io.netty.util.internal.StringUtil;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -45,4 +47,10 @@ public class Clip {
     @ManyToOne
     @JoinColumn(name="category_id", nullable = false)
     private Category category;
+
+    public void modifyClip(String title, String link, String visible){
+        this.title = StringUtil.isNullOrEmpty(title) ? title : this.title;
+        this.link = StringUtil.isNullOrEmpty(link) ? link : this.link;
+        this.visible = StringUtil.isNullOrEmpty(visible) ? visible : this.visible;
+    }
 }

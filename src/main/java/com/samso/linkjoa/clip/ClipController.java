@@ -13,7 +13,7 @@ public class ClipController {
     private ClipUsecase clipUseCase;
 
     @PostMapping("/v1/clip/create")
-    public @ResponseBody String categoryCreate(HttpServletRequest request, @RequestBody ClipRequest clipRequest){
+    public @ResponseBody String clipCreate(HttpServletRequest request, @RequestBody ClipRequest clipRequest){
 
         return clipUseCase.createClip(request, clipRequest);
     }
@@ -22,5 +22,17 @@ public class ClipController {
     public @ResponseBody List<ClipResponse> getClipList(HttpServletRequest request){
 
         return  clipUseCase.getClipList(request);
+    }
+
+    @GetMapping("/v1/category/list")
+    public @ResponseBody List<CategoryResponse> getCategoryList(HttpServletRequest request){
+
+        return clipUseCase.getCategory(request);
+    }
+
+    @PostMapping("/v1/clip/modify")
+    public @ResponseBody String clipModify(HttpServletRequest request, @RequestBody ClipRequest clipRequest){
+
+        return clipUseCase.modifyClip(clipRequest);
     }
 }

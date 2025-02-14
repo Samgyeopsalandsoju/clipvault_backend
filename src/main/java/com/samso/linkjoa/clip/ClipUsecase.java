@@ -30,4 +30,16 @@ public class ClipUsecase {
 
         return clipService.getClipListResponse(memberId);
     }
+
+    public List<CategoryResponse> getCategory(HttpServletRequest request) {
+
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
+
+        return clipService.getCategoryResponse(memberId);
+    }
+
+    public String modifyClip(ClipRequest clipRequest) {
+
+        return clipService.modifyClip(clipRequest);
+    }
 }

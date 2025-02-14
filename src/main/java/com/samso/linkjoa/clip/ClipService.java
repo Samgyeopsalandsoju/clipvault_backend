@@ -1,6 +1,7 @@
 package com.samso.linkjoa.clip;
 
 import com.samso.linkjoa.domain.member.Member;
+import io.jsonwebtoken.lang.Assert;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
@@ -58,5 +59,28 @@ public class ClipService {
         return  clipList.stream()
                 .map(clip -> modelMapper.map(clip, ClipResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    public List<CategoryResponse> getCategoryResponse(long memberId) {
+
+        List<Category> categoryList = categoryRepository.findByMemberId(memberId);
+
+        return categoryList.stream()
+                .map(cate -> modelMapper.map(cate, CategoryResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public String modifyClip(ClipRequest clipRequest) {
+
+        Clip clip = entityManager.find(Clip.class, clipRequest.getId());
+        Assert.notNull(clip, ClipEnum.CLIP_EMPTY.getValue());
+
+        clip.modifyClip(clipRequest.getTitle()
+                        , clipRequest.getLink()
+                        , clipRequest.getVisible());
+
+        return ClipEnum.MODIFY_CLIP_SUCCESS.getValue();
+
     }
 }
