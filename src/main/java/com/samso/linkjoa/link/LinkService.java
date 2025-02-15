@@ -10,6 +10,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,7 @@ public class LinkService {
 
     public List<LinkResponse> getLinkList(long memberId) {
 
-        List<Link> linkList = linkRepository.findByMemberId(memberId);
+        List<Link> linkList = linkRepository.findByMemberId(memberId, Sort.by(Sort.Direction.DESC, "created_date"));
 
         return  linkList.stream()
                 .map(link -> modelMapper.map(link, LinkResponse.class))
