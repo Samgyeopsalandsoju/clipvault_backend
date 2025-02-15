@@ -42,4 +42,10 @@ public class ClipUsecase {
 
         return clipService.modifyClip(clipRequest);
     }
+
+    public ClipResponse getClipById(HttpServletRequest request, Long clipId) {
+
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
+        return clipService.getClipById(clipId, memberId);
+    }
 }

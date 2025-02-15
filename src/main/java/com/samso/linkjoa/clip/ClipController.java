@@ -21,7 +21,13 @@ public class ClipController {
     @GetMapping("/v1/clip/list")
     public @ResponseBody List<ClipResponse> getClipList(HttpServletRequest request){
 
-        return  clipUseCase.getClipList(request);
+        return clipUseCase.getClipList(request);
+    }
+
+    @GetMapping("/v1/clip/{clipId}")
+    public ClipResponse getClipById(HttpServletRequest request, @PathVariable Long clipId){
+
+        return clipUseCase.getClipById(request, clipId);
     }
 
     @GetMapping("/v1/category/list")

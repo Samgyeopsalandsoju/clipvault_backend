@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 public class LinkService {
 
     private LinkRepository linkRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
     private ModelMapper modelMapper;
     public void createLink(LinkRequest linkRequest) {
 

@@ -9,6 +9,7 @@ public enum ClipEnum {
 
     CREATE_CLIP_SUCCESS("3001"),
     CLIP_EMPTY("3002"),
-    MODIFY_CLIP_SUCCESS("3003");
+    MODIFY_CLIP_SUCCESS("3003"),
+    NOT_FOUND_CLIP("3004");
     private final String value;
 }

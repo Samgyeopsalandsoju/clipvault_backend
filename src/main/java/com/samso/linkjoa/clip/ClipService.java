@@ -1,5 +1,6 @@
 package com.samso.linkjoa.clip;
 
+import com.samso.linkjoa.core.common.ApplicationInternalException;
 import com.samso.linkjoa.domain.member.Member;
 import io.jsonwebtoken.lang.Assert;
 import jakarta.persistence.EntityManager;
@@ -82,5 +83,14 @@ public class ClipService {
 
         return ClipEnum.MODIFY_CLIP_SUCCESS.getValue();
 
+    }
+
+    public ClipResponse getClipById(Long clipId, Long memberId) {
+
+
+        Clip clip = clipRepository.findByIdAndCategory_Member_Id(clipId, memberId)
+                .orElseThrow(() -> new ApplicationInternalException(ClipEnum.NOT_FOUND_CLIP.getValue(), "Not found modify clip"));
+
+        return modelMapper.map(clip, ClipResponse.class);
     }
 }
