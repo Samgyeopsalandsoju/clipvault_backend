@@ -49,8 +49,8 @@ public class Clip {
     private Category category;
 
     public void modifyClip(String title, String link, String visible){
-        this.title = StringUtil.isNullOrEmpty(title) ? title : this.title;
-        this.link = StringUtil.isNullOrEmpty(link) ? link : this.link;
-        this.visible = StringUtil.isNullOrEmpty(visible) ? visible : this.visible;
+        this.title = StringUtil.isNullOrEmpty(title) ? this.title : title;
+        this.link = StringUtil.isNullOrEmpty(link) ? this.link : link;
+        this.visible = StringUtil.isNullOrEmpty(visible) ? this.visible : visible;
     }
 }

@@ -36,7 +36,7 @@ public class ClipController {
         return clipUseCase.getCategory(request);
     }
 
-    @PostMapping("/v1/clip/modify")
+    @PatchMapping("/v1/clip/modify")
     public @ResponseBody String clipModify(HttpServletRequest request, @RequestBody ClipRequest clipRequest){
 
         return clipUseCase.modifyClip(clipRequest);
