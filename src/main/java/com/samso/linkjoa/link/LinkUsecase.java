@@ -3,6 +3,8 @@ package com.samso.linkjoa.link;
 import com.samso.linkjoa.core.Utility.DateTimeUtil;
 import com.samso.linkjoa.core.common.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,9 +21,11 @@ public class LinkUsecase {
     private LinkService linkService;
     private JwtUtil jwtUtil;
     @Transactional
-    public String createLink(LinkRequest linkRequest) {
+    public String createLink(HttpServletRequest request, LinkRequest linkRequest) {
 
-        linkService.createLink(linkRequest);
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
+
+        linkService.createLink(linkRequest, memberId);
 
         return LinkEnum.CREATE_LINK_SUCCESS.getValue();
     }
@@ -30,5 +34,11 @@ public class LinkUsecase {
         long memberId = jwtUtil.getMemberIdFromRequest(request);
 
         return linkService.getLinkList(memberId);
+    }
+
+    public String deleteLinkById(HttpServletRequest request, Long linkId) {
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
+
+        return linkService.deleteLinkById(linkId, memberId);
     }
 }

@@ -13,14 +13,20 @@ public class LinkController {
     private LinkUsecase linkUsecase;
 
     @PostMapping("/v1/link/create")
-    public @ResponseBody String createLink(@RequestBody LinkRequest linkRequest){
+    public @ResponseBody String createLink(HttpServletRequest request, @RequestBody LinkRequest linkRequest){
 
-        return linkUsecase.createLink(linkRequest);
+        return linkUsecase.createLink(request, linkRequest);
     }
 
     @GetMapping("/v1/link")
     public @ResponseBody List<LinkResponse> getLink(HttpServletRequest request){
 
         return linkUsecase.getLinkList(request);
+    }
+
+    @DeleteMapping("/v1/link/delete/{linkId}")
+    public String deleteLinkById(HttpServletRequest request, @PathVariable Long linkId){
+
+        return linkUsecase.deleteLinkById(request, linkId);
     }
 }
