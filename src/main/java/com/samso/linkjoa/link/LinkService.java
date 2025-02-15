@@ -43,7 +43,7 @@ public class LinkService {
 
     public List<LinkResponse> getLinkList(long memberId) {
 
-        List<Link> linkList = linkRepository.findByMemberId(memberId, Sort.by(Sort.Direction.DESC, "created_date"));
+        List<Link> linkList = linkRepository.findByMemberId(memberId, Sort.by(Sort.Direction.DESC, "createdDate"));
 
         return  linkList.stream()
                 .map(link -> modelMapper.map(link, LinkResponse.class))

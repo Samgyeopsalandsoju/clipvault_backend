@@ -1,7 +1,6 @@
 package com.samso.linkjoa.link;
 
 
-import com.samso.linkjoa.clip.Category;
 import com.samso.linkjoa.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -37,7 +36,7 @@ public class Link {
     @Column(nullable = false)
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:sss")
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
 
     @ManyToOne
     @JoinColumn(name="member_id", nullable = false)
