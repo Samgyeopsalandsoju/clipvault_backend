@@ -10,7 +10,7 @@ public enum LinkEnum {
     CREATE_LINK_SUCCESS("4001"),
     NOT_FOUND_LINK("4002"),
     DELETE_LINK_SUCCESS("4003"),
-    NOT_FOUND_DELETE_LINK("40034")
+    NOT_FOUND_DELETE_LINK("4004")
     ;
     private final String value;
 }
