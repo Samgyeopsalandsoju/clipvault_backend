@@ -22,7 +22,8 @@ public class JwtUtil {
     //TODO(key 별도 관리 필요)
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    private final long validityInMilliseconds = 1800000;
+    private final long validityInMilliseconds = 86400000;
+    //private final long validityInMilliseconds = 1800000;
 
     //Jwt 토큰 생성
     public String generateToken(Authentication authentication){
