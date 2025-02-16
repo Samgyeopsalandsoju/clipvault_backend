@@ -1,11 +1,9 @@
-package com.samso.linkjoa.link;
+package com.samso.linkjoa.share;
 
 import lombok.Value;
 
-import java.time.LocalDateTime;
-
 @Value
-public class LinkRequest {
+public class ShareRequest {
 
     Long id;
     String title;

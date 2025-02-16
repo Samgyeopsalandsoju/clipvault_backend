@@ -1,4 +1,4 @@
-package com.samso.linkjoa.link;
+package com.samso.linkjoa.share;
 
 
 import com.samso.linkjoa.domain.member.Member;
@@ -18,9 +18,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name="link")
+@Table(name="share")
 @EntityListeners(AuditingEntityListener.class)
-public class Link {
+public class Share {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

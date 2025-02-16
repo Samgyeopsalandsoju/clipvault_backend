@@ -1,14 +1,13 @@
-package com.samso.linkjoa.link;
+package com.samso.linkjoa.share;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class LinkResponse {
+public class ShareResponse {
 
     private Long id;
     private String title;

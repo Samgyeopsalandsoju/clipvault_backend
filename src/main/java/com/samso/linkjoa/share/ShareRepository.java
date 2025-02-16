@@ -1,4 +1,4 @@
-package com.samso.linkjoa.link;
+package com.samso.linkjoa.share;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface LinkRepository  extends JpaRepository<Link, Long> {
+public interface ShareRepository extends JpaRepository<Share, Long> {
 
-    public Link save(Link link);
+    public Share save(Share share);
 
-    List<Link> findByMemberId(long memberId, Sort sort);
+    List<Share> findByMemberId(long memberId, Sort sort);
 
     @Transactional
     @Modifying

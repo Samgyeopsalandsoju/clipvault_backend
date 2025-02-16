@@ -3,7 +3,7 @@ package com.samso.linkjoa.domain.member;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.samso.linkjoa.core.springSecurity.Role;
 import com.samso.linkjoa.clip.Category;
-import com.samso.linkjoa.link.Link;
+import com.samso.linkjoa.share.Share;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,7 +45,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Link> linkList = new ArrayList<>();
+    private List<Share> shareList = new ArrayList<>();
 
     public Member(String mail, String password, Role role){
         this.mail = mail;
