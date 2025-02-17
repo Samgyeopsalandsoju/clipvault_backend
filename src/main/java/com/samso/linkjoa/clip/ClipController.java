@@ -41,4 +41,10 @@ public class ClipController {
 
         return clipUseCase.modifyClip(clipRequest);
     }
+
+    @DeleteMapping("/v1/clip/delete/{clipId}")
+    public String deleteClipById(HttpServletRequest request, @PathVariable Long clipId){
+
+        return clipUseCase.deleteClipById(request, clipId);
+    }
 }

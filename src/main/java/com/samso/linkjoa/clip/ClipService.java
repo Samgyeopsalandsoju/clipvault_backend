@@ -93,4 +93,15 @@ public class ClipService {
 
         return modelMapper.map(clip, ClipResponse.class);
     }
+
+    public String deleteClipById(Long clipId, long memberId) {
+
+        int deleteCount = clipRepository.deleteByIdAndMemberId(clipId, memberId);
+
+        Optional.of(deleteCount)
+                .filter(count -> count > 0)
+                .orElseThrow(() -> new ApplicationInternalException(ClipEnum.DELETE_FAIL.getValue(), "Fail clip Delete"));
+
+        return ClipEnum.DELETE_SUCCESS.getValue();
+    }
 }

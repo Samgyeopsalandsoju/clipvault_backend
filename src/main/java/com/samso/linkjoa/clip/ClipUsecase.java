@@ -48,4 +48,11 @@ public class ClipUsecase {
         long memberId = jwtUtil.getMemberIdFromRequest(request);
         return clipService.getClipById(clipId, memberId);
     }
+
+    public String deleteClipById(HttpServletRequest request, Long clipId) {
+
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
+
+        return clipService.deleteClipById(clipId, memberId);
+    }
 }
