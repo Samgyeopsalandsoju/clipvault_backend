@@ -1,5 +1,7 @@
 package com.samso.linkjoa.clip;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.samso.linkjoa.fork.domain.entity.Fork;
 import io.netty.util.internal.StringUtil;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,11 +13,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name="clip")
 @EntityListeners(AuditingEntityListener.class)
