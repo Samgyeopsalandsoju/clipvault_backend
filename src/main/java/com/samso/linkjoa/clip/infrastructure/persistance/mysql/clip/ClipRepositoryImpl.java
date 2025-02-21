@@ -13,6 +13,17 @@ import java.util.Optional;
 public class ClipRepositoryImpl implements ClipRepository {
 
     private final JpaClipRepository jpaClipRepository;
+
+    @Override
+    public int countByVisible(String visible) {
+        return jpaClipRepository.countByVisible(visible);
+    }
+
+    @Override
+    public List<Clip> findPublicClipWithOffset(int limit, int offset) {
+        return jpaClipRepository.findPublicClipWithOffset(limit, offset);
+    }
+
     @Override
     public Clip save(Clip clip) {
         return jpaClipRepository.save(clip);

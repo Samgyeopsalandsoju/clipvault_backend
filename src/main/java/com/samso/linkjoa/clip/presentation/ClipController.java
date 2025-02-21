@@ -1,4 +1,4 @@
-package com.samso.linkjoa.clip.presentation.web;
+package com.samso.linkjoa.clip.presentation;
 
 import com.samso.linkjoa.clip.presentation.port.in.CreateClipUseCase;
 import com.samso.linkjoa.clip.presentation.port.in.DeleteClipUseCase;
@@ -16,15 +16,23 @@ import java.util.List;
 @RestController
 public class ClipController {
 
-    private CreateClipUseCase createClip;
+    private CreateClipUseCase createClipUseCase;
     private GetClipInfoUseCase getClipInfoUseCase;
     private ModifyClipUseCase modifyClipUseCase;
     private DeleteClipUseCase deleteClipUseCase;
 
+    @GetMapping("/v1/clip/public/{pageSize}")
+    public @ResponseBody List<ClipResponse> getPublicClipList(@PathVariable int pageSize){
+        return getClipInfoUseCase.findRandomPublicClips(pageSize,"public");
+    }
+    @GetMapping("/v1/clip/public")
+    public @ResponseBody List<ClipResponse> getPublicClipList(){
+        return getClipInfoUseCase.findRandomPublicClips("public");
+    }
     @PostMapping("/v1/clip/create")
     public @ResponseBody String clipCreate(HttpServletRequest request, @RequestBody ClipRequest clipRequest){
 
-        return createClip.createClip(request, clipRequest);
+        return createClipUseCase.createClip(request, clipRequest);
     }
 
     @GetMapping("/v1/clip/list")

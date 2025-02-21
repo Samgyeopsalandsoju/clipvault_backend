@@ -25,8 +25,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +41,42 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
     @PersistenceContext
     private EntityManager entityManager;
     private ModelMapper modelMapper;
+
+    private static final int PAGE_SIZE = 30;
+
+    @Override
+    public List<ClipResponse> findRandomPublicClips(int pageSize, String visible) {
+        int totalCount = clipRepository.countByVisible(visible);
+
+        int randomStartIndex = (totalCount > pageSize) ?
+                ThreadLocalRandom.current().nextInt(0, (int) (totalCount - pageSize) + 1) : 0;
+
+        List<ClipResponse> publicClips =   clipRepository.findPublicClipWithOffset(pageSize, randomStartIndex)
+                .stream()
+                .map(clip -> modelMapper.map(clip, ClipResponse.class))
+                .collect(Collectors.toList());
+
+        Collections.shuffle(publicClips);
+
+        return publicClips;
+    }
+    @Override
+    public List<ClipResponse> findRandomPublicClips(String visible) {
+
+        int totalCount = clipRepository.countByVisible(visible);
+
+        int randomStartIndex = (totalCount > PAGE_SIZE) ?
+                ThreadLocalRandom.current().nextInt(0, (int) (totalCount - PAGE_SIZE) + 1) : 0;
+
+        List<ClipResponse> publicClips =   clipRepository.findPublicClipWithOffset(PAGE_SIZE, randomStartIndex)
+                .stream()
+                .map(clip -> modelMapper.map(clip, ClipResponse.class))
+                .collect(Collectors.toList());
+
+        Collections.shuffle(publicClips);
+
+        return publicClips;
+    }
 
     @Override
     @Transactional
@@ -90,6 +128,8 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
                     return categoryRepository.save(requestCategory);
                 });
     }
+
+
 
 
     @Override

@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClipRepository {
-    Clip save(Clip clip);
 
+    int countByVisible(String visible);
+    List<Clip> findPublicClipWithOffset(int limit, int offset);
+    Clip save(Clip clip);
     Optional<Clip> findById(long clipId);
     Optional<List<Clip>> findByCategoryMemberId(Long memberId);
 
