@@ -9,6 +9,7 @@ import com.samso.linkjoa.fork.application.port.out.repository.ForkRepository;
 import com.samso.linkjoa.fork.domain.ForkEnum;
 import com.samso.linkjoa.fork.domain.entity.Fork;
 import com.samso.linkjoa.fork.presentation.port.in.CreateNewForkUseCase;
+import com.samso.linkjoa.fork.presentation.port.in.DeleteForkUseCase;
 import com.samso.linkjoa.fork.presentation.port.in.GetForkInfoUseCase;
 import com.samso.linkjoa.fork.presentation.web.request.ReqNewFork;
 import com.samso.linkjoa.fork.presentation.web.response.ResFork;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase {
+public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase, DeleteForkUseCase {
 
     private final ClipRepository clipRepository;
     private final ForkRepository forkRepository;
@@ -38,6 +39,7 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase {
     @Override
     public String createFork(HttpServletRequest request, ReqNewFork reqNewFork) {
 
+        //TODO 1. 클립 정보가 없거나  2. 내클립이거나 3. 이미 포크한 클립이면 튕겨내야함
         Clip clip = clipRepository.findById(reqNewFork.getClipId())
                 .filter(c -> "public".equals(c.getVisible()))
                 .orElseThrow(() ->new ApplicationInternalException(ForkEnum.NOT_FOUND_CLIP.getValue(), "Not Found Forked Clip"));
@@ -64,5 +66,16 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase {
         return forkList.stream()
                 .map(fork -> modelMapper.map(fork, ResFork.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String deleteForkClip(HttpServletRequest request, long forkId) {
+
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
+
+        forkRepository.deleteByIdAndMemberId(forkId, memberId)
+                .orElseThrow(() -> new ApplicationInternalException(ForkEnum.DELETE_FAIL.getValue(), "Delete Forked Clip Fail"));
+
+        return ForkEnum.DELETE_SUCCESS.getValue();
     }
 }

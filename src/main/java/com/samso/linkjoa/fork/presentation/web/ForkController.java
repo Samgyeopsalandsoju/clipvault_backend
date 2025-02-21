@@ -2,6 +2,7 @@ package com.samso.linkjoa.fork.presentation.web;
 
 import com.samso.linkjoa.fork.domain.entity.Fork;
 import com.samso.linkjoa.fork.presentation.port.in.CreateNewForkUseCase;
+import com.samso.linkjoa.fork.presentation.port.in.DeleteForkUseCase;
 import com.samso.linkjoa.fork.presentation.port.in.GetForkInfoUseCase;
 import com.samso.linkjoa.fork.presentation.web.request.ReqNewFork;
 import com.samso.linkjoa.fork.presentation.web.response.ResFork;
@@ -17,6 +18,7 @@ public class ForkController {
 
     private final CreateNewForkUseCase createNewForkUseCase;
     private final GetForkInfoUseCase getForkInfoUseCase;
+    private final DeleteForkUseCase deleteForkUseCase;
 
     @PostMapping("/v1/fork/create")
     public String createNewFork(HttpServletRequest request, @RequestBody ReqNewFork reqNewFork){
@@ -30,4 +32,9 @@ public class ForkController {
         return getForkInfoUseCase.getForkList(request);
     }
 
+    @DeleteMapping("/v1/fork/delete/{forkId}")
+    public String deleteForkClip(HttpServletRequest request, @PathVariable long forkId){
+
+        return deleteForkUseCase.deleteForkClip(request, forkId);
+    }
 }

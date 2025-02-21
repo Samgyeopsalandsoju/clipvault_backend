@@ -12,4 +12,5 @@ public interface ForkRepository  {
 
     Optional<List<Fork>> findByMemberId(long memberId, Sort sort);
 
+    Optional<Integer> deleteByIdAndMemberId(long forkId, long memberId);
 }
