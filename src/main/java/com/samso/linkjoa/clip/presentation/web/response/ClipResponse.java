@@ -1,9 +1,8 @@
-package com.samso.linkjoa.clip;
+package com.samso.linkjoa.clip.presentation.web.response;
 
-import lombok.AllArgsConstructor;
+import com.samso.linkjoa.category.presentation.web.response.CategoryResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
 @Data
 @NoArgsConstructor

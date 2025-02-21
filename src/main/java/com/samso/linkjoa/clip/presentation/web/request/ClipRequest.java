@@ -1,5 +1,6 @@
-package com.samso.linkjoa.clip;
+package com.samso.linkjoa.clip.presentation.web.request;
 
+import com.samso.linkjoa.category.presentation.web.request.CategoryRequest;
 import lombok.Value;
 
 @Value

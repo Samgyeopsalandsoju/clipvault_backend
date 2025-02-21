@@ -1,4 +1,4 @@
-package com.samso.linkjoa.clip;
+package com.samso.linkjoa.clip.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

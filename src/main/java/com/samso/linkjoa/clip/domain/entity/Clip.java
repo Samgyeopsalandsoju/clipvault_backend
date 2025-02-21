@@ -1,20 +1,15 @@
-package com.samso.linkjoa.clip;
+package com.samso.linkjoa.clip.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.samso.linkjoa.fork.domain.entity.Fork;
+import com.samso.linkjoa.category.domain.entity.Category;
 import io.netty.util.internal.StringUtil;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Builder
 @AllArgsConstructor
