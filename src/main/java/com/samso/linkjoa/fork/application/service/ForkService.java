@@ -11,7 +11,7 @@ import com.samso.linkjoa.fork.domain.entity.Fork;
 import com.samso.linkjoa.fork.presentation.port.in.CreateNewForkUseCase;
 import com.samso.linkjoa.fork.presentation.port.in.DeleteForkUseCase;
 import com.samso.linkjoa.fork.presentation.port.in.GetForkInfoUseCase;
-import com.samso.linkjoa.fork.presentation.web.request.ReqNewFork;
+import com.samso.linkjoa.fork.presentation.web.request.ReqFork;
 import com.samso.linkjoa.fork.presentation.web.response.ResFork;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -37,16 +37,16 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase, De
     private final ModelMapper modelMapper;
     @Transactional
     @Override
-    public String createFork(HttpServletRequest request, ReqNewFork reqNewFork) {
+    public String createFork(HttpServletRequest request, ReqFork reqFork) {
 
         //TODO 1. 클립 정보가 없거나  2. 내클립이거나 3. 이미 포크한 클립이면 튕겨내야함
-        Clip clip = clipRepository.findById(reqNewFork.getClipId())
+        Clip clip = clipRepository.findById(reqFork.getClipId())
                 .filter(c -> "public".equals(c.getVisible()))
                 .orElseThrow(() ->new ApplicationInternalException(ForkEnum.NOT_FOUND_CLIP.getValue(), "Not Found Forked Clip"));
 
         Member loginMember = entityManager.getReference(Member.class, jwtUtil.getMemberIdFromRequest(request));
 
-        forkRepository.save(reqNewFork.toEntity(clip, loginMember));
+        forkRepository.save(reqFork.toEntity(clip, loginMember));
 
         long forkCount = clip.getForked_count();
         clip.setForked_count(++forkCount);
@@ -69,12 +69,19 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase, De
     }
 
     @Override
-    public String deleteForkClip(HttpServletRequest request, long forkId) {
+    @Transactional
+    public String deleteForkClip(HttpServletRequest request, ReqFork reqFork) {
 
         long memberId = jwtUtil.getMemberIdFromRequest(request);
 
-        forkRepository.deleteByIdAndMemberId(forkId, memberId)
+        forkRepository.deleteByIdAndMemberId(reqFork.getForkId(), memberId)
                 .orElseThrow(() -> new ApplicationInternalException(ForkEnum.DELETE_FAIL.getValue(), "Delete Forked Clip Fail"));
+
+        Clip clip = clipRepository.findById(reqFork.getClipId())
+                .orElseThrow(() -> new ApplicationInternalException(ForkEnum.NOT_FOUND_CLIP.getValue(), "Not Found Origin Clip"));
+
+        long forkedCount = clip.getForked_count();
+        clip.setForked_count(--forkedCount);
 
         return ForkEnum.DELETE_SUCCESS.getValue();
     }

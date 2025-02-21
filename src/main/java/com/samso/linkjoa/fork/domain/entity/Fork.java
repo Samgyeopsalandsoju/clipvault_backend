@@ -41,6 +41,9 @@ public class Fork {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @Column(name = "clip_id", nullable = false)
+    private Long clipId;
+
     @Column(nullable = false)
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:sss")

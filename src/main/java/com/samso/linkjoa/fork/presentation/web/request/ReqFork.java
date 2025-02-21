@@ -8,13 +8,14 @@ import lombok.Getter;
 
 @Data
 @Getter
-public class ReqNewFork {
+public class ReqFork {
 
     private long clipId;
     private String clipTitle;
     private String clipLink;
     private String categoryName;
     private int categoryColor;
+    private long forkId;
 
     public Fork toEntity(Clip clip, Member member) {
 
@@ -24,6 +25,7 @@ public class ReqNewFork {
                 .categoryName(clip.getCategory().getName())
                 .categoryColor(clip.getCategory().getColor())
                 .member(member)
+                .clipId(clip.getId())
                 .build();
     }
 }
