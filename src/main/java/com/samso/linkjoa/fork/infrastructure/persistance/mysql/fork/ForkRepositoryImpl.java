@@ -15,21 +15,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ForkRepositoryImpl implements ForkRepository {
 
-    private final JpaForkRepository jpaOrderRepository;
+    private final JpaForkRepository jpaForkRepository;
 
     @Override
-    public Fork save(Fork newFork) { return jpaOrderRepository.save(newFork); }
+    public Fork save(Fork newFork) { return jpaForkRepository.save(newFork); }
 
     @Override
     public Optional<List<Fork>> findByMemberId(long memberId, Sort sort) {
-        return jpaOrderRepository.findByMemberId(memberId, sort);
+        return jpaForkRepository.findByMemberId(memberId, sort);
     }
 
     @Override
     @Modifying
     @Transactional
     public Optional<Integer> deleteByIdAndMemberId(long forkId, long memberId) {
-        return jpaOrderRepository.deleteByIdAndMemberId(forkId, memberId)
+        return jpaForkRepository.deleteByIdAndMemberId(forkId, memberId)
                                 .filter(f -> f > 0);
     }
 }

@@ -1,6 +1,5 @@
 package com.samso.linkjoa.fork.domain.entity;
 
-import com.samso.linkjoa.clip.Clip;
 import com.samso.linkjoa.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

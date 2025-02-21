@@ -1,7 +1,7 @@
 package com.samso.linkjoa.fork.application.service;
 
-import com.samso.linkjoa.clip.Clip;
-import com.samso.linkjoa.clip.ClipRepository;
+import com.samso.linkjoa.clip.application.port.out.repository.ClipRepository;
+import com.samso.linkjoa.clip.domain.entity.Clip;
 import com.samso.linkjoa.core.common.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
 import com.samso.linkjoa.domain.member.Member;
