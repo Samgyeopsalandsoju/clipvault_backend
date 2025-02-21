@@ -1,4 +1,4 @@
-package com.samso.linkjoa.clip;
+package com.samso.linkjoa.category.presentation.web.response;
 
 import lombok.*;
 

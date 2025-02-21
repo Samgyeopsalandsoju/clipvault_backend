@@ -1,6 +1,7 @@
-package com.samso.linkjoa.clip;
+package com.samso.linkjoa.category.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.samso.linkjoa.clip.domain.entity.Clip;
 import com.samso.linkjoa.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
