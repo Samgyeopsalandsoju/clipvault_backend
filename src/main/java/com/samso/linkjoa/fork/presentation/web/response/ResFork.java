@@ -12,4 +12,5 @@ public class ResFork {
     private String categoryName;
     private String clipLink;
     private String clipTitle;
+    private long clipId;
 }

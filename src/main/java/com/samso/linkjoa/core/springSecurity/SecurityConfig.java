@@ -32,7 +32,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, userDetailsServiceImpl), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/v1/member/sign-up","/v1/member/login","/v1/auth/*").permitAll()
+                        .requestMatchers("/v1/member/sign-up","/v1/member/login","/v1/auth/*"
+                        ,"/v1/clip/public/*").permitAll()
                         .anyRequest().authenticated())
 //                .oauth2Login(oauth2 -> oauth2
 //                        .defaultSuccessUrl("/main/index.do")//TODO 로그인 성공 후 페이지
