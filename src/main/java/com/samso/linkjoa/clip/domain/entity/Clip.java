@@ -32,7 +32,7 @@ public class Clip {
     @Column(nullable = false, length = 255)
     private String visible;
     @Column(nullable = false)
-    private Long forked_count;
+    private Long forkedCount;
 
     @Column(nullable = false)
     @CreatedDate

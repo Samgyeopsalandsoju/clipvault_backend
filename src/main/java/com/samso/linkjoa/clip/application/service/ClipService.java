@@ -68,7 +68,7 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
         int randomStartIndex = (totalCount > PAGE_SIZE) ?
                 ThreadLocalRandom.current().nextInt(0, (int) (totalCount - PAGE_SIZE) + 1) : 0;
 
-        List<ClipResponse> publicClips =   clipRepository.findPublicClipWithOffset(PAGE_SIZE, randomStartIndex)
+        List<ClipResponse> publicClips = clipRepository.findPublicClipWithOffset(PAGE_SIZE, randomStartIndex)
                 .stream()
                 .map(clip -> modelMapper.map(clip, ClipResponse.class))
                 .collect(Collectors.toList());
@@ -92,7 +92,7 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
                 .title(clipRequest.getTitle())
                 .link(clipRequest.getLink())
                 .visible(clipRequest.getVisible())
-                .forked_count(0L)
+                .forkedCount(0L)
                 .category(category)
                 .build();
 

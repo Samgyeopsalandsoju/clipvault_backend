@@ -48,8 +48,8 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase, De
 
         forkRepository.save(reqFork.toEntity(clip, loginMember));
 
-        long forkCount = clip.getForked_count();
-        clip.setForked_count(++forkCount);
+        long forkCount = clip.getForkedCount();
+        clip.setForkedCount(++forkCount);
 
          return ForkEnum.CREATE_SUCCESS.getValue();
     }
@@ -80,8 +80,8 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase, De
         Clip clip = clipRepository.findById(reqFork.getClipId())
                 .orElseThrow(() -> new ApplicationInternalException(ForkEnum.NOT_FOUND_CLIP.getValue(), "Not Found Origin Clip"));
 
-        long forkedCount = clip.getForked_count();
-        clip.setForked_count(--forkedCount);
+        long forkedCount = clip.getForkedCount();
+        clip.setForkedCount(--forkedCount);
 
         return ForkEnum.DELETE_SUCCESS.getValue();
     }
