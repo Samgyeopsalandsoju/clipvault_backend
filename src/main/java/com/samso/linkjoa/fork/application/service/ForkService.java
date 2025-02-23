@@ -77,11 +77,11 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase, De
         forkRepository.deleteByIdAndMemberId(reqFork.getForkId(), memberId)
                 .orElseThrow(() -> new ApplicationInternalException(ForkEnum.DELETE_FAIL.getValue(), "Delete Forked Clip Fail"));
 
-        Clip clip = clipRepository.findById(reqFork.getClipId())
-                .orElseThrow(() -> new ApplicationInternalException(ForkEnum.NOT_FOUND_CLIP.getValue(), "Not Found Origin Clip"));
-
-        long forkedCount = clip.getForkedCount();
-        clip.setForkedCount(--forkedCount);
+        clipRepository.findById(reqFork.getClipId())
+                        .ifPresent(c -> {
+                            long forkedCount = c.getForkedCount();
+                            c.setForkedCount(--forkedCount);
+                        });
 
         return ForkEnum.DELETE_SUCCESS.getValue();
     }
