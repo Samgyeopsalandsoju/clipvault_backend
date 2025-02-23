@@ -154,14 +154,14 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
 //                .collect(Collectors.toList());
 //    }
 
-    public List<CategoryResponse> getCategoryResponse(long memberId) {
-
-        List<Category> categoryList = categoryRepository.findByMemberId(memberId);
-
-        return categoryList.stream()
-                .map(cate -> modelMapper.map(cate, CategoryResponse.class))
-                .collect(Collectors.toList());
-    }
+//    public List<CategoryResponse> getCategoryResponse(long memberId) {
+//
+//        List<Category> categoryList = categoryRepository.findByMemberId(memberId);
+//
+//        return categoryList.stream()
+//                .map(cate -> modelMapper.map(cate, CategoryResponse.class))
+//                .collect(Collectors.toList());
+//    }
 
     @Transactional
     @Override

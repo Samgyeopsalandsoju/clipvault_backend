@@ -31,9 +31,13 @@ public class ForkController {
         return getForkInfoUseCase.getForkList(request);
     }
 
-    @DeleteMapping("/v1/fork/delete")
-    public String deleteForkClip(HttpServletRequest request, @RequestBody ReqFork reqFork){
+    @DeleteMapping("/v1/fork/delete/{forkId}/{clipId}")
+    public String deleteForkClip(HttpServletRequest request, @PathVariable long forkId, @PathVariable long clipId){
 
+        ReqFork reqFork = ReqFork.builder()
+                            .forkId(forkId)
+                            .clipId(clipId)
+                            .build();
         return deleteForkUseCase.deleteForkClip(request, reqFork);
     }
 }
