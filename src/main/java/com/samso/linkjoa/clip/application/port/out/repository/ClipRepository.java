@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface ClipRepository {
 
+    long count();
     int countByVisible(String visible);
     List<Clip> findPublicClipWithOffset(int limit, int offset);
     Clip save(Clip clip);

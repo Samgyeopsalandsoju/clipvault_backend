@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, userDetailsServiceImpl), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/v1/member/sign-up","/v1/member/login","/v1/auth/*"
-                        ,"/v1/clip/public/*").permitAll()
+                        ,"/v1/clip/public/*", "/v1/main/total").permitAll()
                         .anyRequest().authenticated())
 //                .oauth2Login(oauth2 -> oauth2
 //                        .defaultSuccessUrl("/main/index.do")//TODO 로그인 성공 후 페이지

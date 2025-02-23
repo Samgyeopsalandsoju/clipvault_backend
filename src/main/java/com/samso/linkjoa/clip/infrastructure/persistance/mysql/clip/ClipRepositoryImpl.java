@@ -15,6 +15,9 @@ public class ClipRepositoryImpl implements ClipRepository {
     private final JpaClipRepository jpaClipRepository;
 
     @Override
+    public long count() { return jpaClipRepository.count(); }
+
+    @Override
     public int countByVisible(String visible) {
         return jpaClipRepository.countByVisible(visible);
     }
