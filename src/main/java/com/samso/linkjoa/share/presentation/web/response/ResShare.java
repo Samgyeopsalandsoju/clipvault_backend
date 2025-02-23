@@ -1,4 +1,4 @@
-package com.samso.linkjoa.share;
+package com.samso.linkjoa.share.presentation.web.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class ShareResponse {
+public class ResShare {
 
     private Long id;
     private String title;

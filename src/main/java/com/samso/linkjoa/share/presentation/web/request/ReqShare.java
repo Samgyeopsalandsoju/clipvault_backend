@@ -1,9 +1,9 @@
-package com.samso.linkjoa.share;
+package com.samso.linkjoa.share.presentation.web.request;
 
 import lombok.Value;
 
 @Value
-public class ShareRequest {
+public class ReqShare {
 
     Long id;
     String title;

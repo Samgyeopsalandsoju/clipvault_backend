@@ -1,4 +1,4 @@
-package com.samso.linkjoa.share;
+package com.samso.linkjoa.share.domain.entity;
 
 
 import com.samso.linkjoa.domain.member.Member;

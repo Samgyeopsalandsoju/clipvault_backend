@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.samso.linkjoa.core.springSecurity.Role;
 import com.samso.linkjoa.category.domain.entity.Category;
 import com.samso.linkjoa.fork.domain.entity.Fork;
-import com.samso.linkjoa.share.Share;
+import com.samso.linkjoa.share.domain.entity.Share;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
