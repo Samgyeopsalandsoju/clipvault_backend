@@ -11,6 +11,4 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ResMain {
 
-    private long clipCount;
-    private long shareCount;
 }
