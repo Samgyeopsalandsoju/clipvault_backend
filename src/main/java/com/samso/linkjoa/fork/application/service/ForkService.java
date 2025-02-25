@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,20 +39,26 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase, De
     @Transactional
     @Override
     public String createFork(HttpServletRequest request, ReqFork reqFork) {
-
-        //TODO 1. 클립 정보가 없거나  2. 내클립이거나 3. 이미 포크한 클립이면 튕겨내야함
-        Clip clip = clipRepository.findById(reqFork.getClipId())
-                .filter(c -> "public".equals(c.getVisible()))
-                .orElseThrow(() ->new ApplicationInternalException(ForkEnum.NOT_FOUND_CLIP.getValue(), "Not Found Forked Clip"));
-
+        //이미 포크한 클립인지 확인
+        forkRepository.findByClipId(reqFork.getClipId())
+                .ifPresent(clip -> {
+                    throw new ApplicationInternalException(
+                            ForkEnum.ALREADY_FORKED_CLIP.getValue(), "Already Forked Clip"
+                    );
+                });
+        //내 클립인지 확인
         Member loginMember = entityManager.getReference(Member.class, jwtUtil.getMemberIdFromRequest(request));
-
+        Clip clip = clipRepository.findById(reqFork.getClipId())
+                .filter(c -> !Objects.equals(loginMember, c.getCategory().getMember()))
+                .orElseThrow(() -> new ApplicationInternalException(
+                        ForkEnum.OWN_CLIP.getValue(), "Cannot Fork Your Own Clip")
+                );
         forkRepository.save(reqFork.toEntity(clip, loginMember));
 
         long forkCount = clip.getForkedCount();
         clip.setForkedCount(++forkCount);
 
-         return ForkEnum.CREATE_SUCCESS.getValue();
+        return ForkEnum.CREATE_SUCCESS.getValue();
     }
 
     @Override

@@ -32,4 +32,9 @@ public class ForkRepositoryImpl implements ForkRepository {
         return jpaForkRepository.deleteByIdAndMemberId(forkId, memberId)
                                 .filter(f -> f > 0);
     }
+
+    @Override
+    public Optional<Fork> findByClipId(long clipId) {
+        return jpaForkRepository.findByClipId(clipId);
+    }
 }

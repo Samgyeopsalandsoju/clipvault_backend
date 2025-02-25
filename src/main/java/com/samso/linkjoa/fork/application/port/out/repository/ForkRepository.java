@@ -9,8 +9,7 @@ import java.util.Optional;
 public interface ForkRepository  {
 
     Fork save(Fork fork);
-
     Optional<List<Fork>> findByMemberId(long memberId, Sort sort);
-
     Optional<Integer> deleteByIdAndMemberId(long forkId, long memberId);
+    Optional<Fork> findByClipId(long clipId);
 }
