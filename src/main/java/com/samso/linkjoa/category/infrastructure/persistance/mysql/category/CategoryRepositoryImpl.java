@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -19,7 +20,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<Category> findByMemberId(long memberId) {
-        return jpaCategoryRepository.findByMemberId(memberId);
+    public List<Category> findByMemberIdOrderBySortOrderAsc(long memberId) {
+        return jpaCategoryRepository.findByMemberIdOrderBySortOrderAsc(memberId);
+    }
+
+    @Override
+    public List<Category> saveAll(List<Category> editCategoryList) {
+        return jpaCategoryRepository.saveAll(editCategoryList);
     }
 }
