@@ -4,8 +4,8 @@ import com.samso.linkjoa.clip.presentation.port.in.CreateClipUseCase;
 import com.samso.linkjoa.clip.presentation.port.in.DeleteClipUseCase;
 import com.samso.linkjoa.clip.presentation.port.in.GetClipInfoUseCase;
 import com.samso.linkjoa.clip.presentation.port.in.ModifyClipUseCase;
-import com.samso.linkjoa.clip.presentation.web.request.ClipRequest;
-import com.samso.linkjoa.clip.presentation.web.response.ClipResponse;
+import com.samso.linkjoa.clip.presentation.web.request.ReqClip;
+import com.samso.linkjoa.clip.presentation.web.response.ResClip;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,35 +22,35 @@ public class ClipController {
     private DeleteClipUseCase deleteClipUseCase;
 
     @GetMapping("/v1/clip/public/{pageSize}")
-    public @ResponseBody List<ClipResponse> getPublicClipList(@PathVariable int pageSize){
+    public @ResponseBody List<ResClip> getPublicClipList(@PathVariable int pageSize){
         return getClipInfoUseCase.findRandomPublicClips(pageSize,"public");
     }
     @GetMapping("/v1/clip/public")
-    public @ResponseBody List<ClipResponse> getPublicClipList(){
+    public @ResponseBody List<ResClip> getPublicClipList(){
         return getClipInfoUseCase.findRandomPublicClips("public");
     }
     @PostMapping("/v1/clip/create")
-    public @ResponseBody String clipCreate(HttpServletRequest request, @RequestBody ClipRequest clipRequest){
+    public @ResponseBody String clipCreate(HttpServletRequest request, @RequestBody ReqClip reqClip){
 
-        return createClipUseCase.createClip(request, clipRequest);
+        return createClipUseCase.createClip(request, reqClip);
     }
 
     @GetMapping("/v1/clip/list")
-    public @ResponseBody List<ClipResponse> getClipList(HttpServletRequest request){
+    public @ResponseBody List<ResClip> getClipList(HttpServletRequest request){
 
         return getClipInfoUseCase.getClipList(request);
     }
 
     @GetMapping("/v1/clip/{clipId}")
-    public ClipResponse getClipById(HttpServletRequest request, @PathVariable Long clipId){
+    public ResClip getClipById(HttpServletRequest request, @PathVariable Long clipId){
 
         return getClipInfoUseCase.getClipById(request, clipId);
     }
 
     @PatchMapping("/v1/clip/modify")
-    public @ResponseBody String clipModify(HttpServletRequest request, @RequestBody ClipRequest clipRequest){
+    public @ResponseBody String clipModify(HttpServletRequest request, @RequestBody ReqClip reqClip){
 
-        return modifyClipUseCase.modifyClip(clipRequest);
+        return modifyClipUseCase.modifyClip(reqClip);
     }
 
     @DeleteMapping("/v1/clip/delete/{clipId}")

@@ -1,6 +1,7 @@
 package com.samso.linkjoa.clip.domain.entity;
 
 import com.samso.linkjoa.category.domain.entity.Category;
+import com.samso.linkjoa.clip.presentation.web.request.ReqClip;
 import io.netty.util.internal.StringUtil;
 import jakarta.persistence.*;
 import lombok.*;
