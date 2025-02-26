@@ -1,5 +1,6 @@
 package com.samso.linkjoa.clip.infrastructure.persistance.mysql.clip;
 
+import com.samso.linkjoa.category.domain.entity.Category;
 import com.samso.linkjoa.clip.application.port.out.repository.ClipRepository;
 import com.samso.linkjoa.clip.domain.entity.Clip;
 import lombok.RequiredArgsConstructor;
@@ -51,4 +52,19 @@ public class ClipRepositoryImpl implements ClipRepository {
     public int deleteByIdAndMemberId(long clipId, long memberId) {
         return jpaClipRepository.deleteByIdAndMemberId(clipId, memberId);
     }
+
+    @Override
+    public List<Clip> findByCategoryId(String categoryId) {
+        return jpaClipRepository.findByCategoryId(categoryId);
+    }
+    @Override
+    public void deleteAll(List<Clip> clips) {
+        jpaClipRepository.deleteAll(clips);
+    }
+
+    @Override
+    public void flush() {
+        jpaClipRepository.flush();
+    }
+
 }

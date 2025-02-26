@@ -2,11 +2,14 @@ package com.samso.linkjoa.category.application.service;
 
 import com.samso.linkjoa.category.application.out.repository.CategoryRepository;
 import com.samso.linkjoa.category.domain.CategoryEnum;
+import com.samso.linkjoa.category.presentation.port.in.DeleteCategoryInfoUseCase;
 import com.samso.linkjoa.category.presentation.port.in.EditCategoryInfoUseCase;
 import com.samso.linkjoa.category.presentation.port.in.GetCategoryInfoUseCase;
 import com.samso.linkjoa.category.presentation.web.request.ReqCategory;
 import com.samso.linkjoa.category.presentation.web.response.ResCategory;
 import com.samso.linkjoa.category.domain.entity.Category;
+import com.samso.linkjoa.clip.application.port.out.repository.ClipRepository;
+import com.samso.linkjoa.clip.domain.entity.Clip;
 import com.samso.linkjoa.core.common.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
 import com.samso.linkjoa.domain.member.Member;
@@ -24,10 +27,11 @@ import java.util.stream.IntStream;
 
 @AllArgsConstructor
 @Service
-public class CategoryService implements GetCategoryInfoUseCase, EditCategoryInfoUseCase {
+public class CategoryService implements GetCategoryInfoUseCase, EditCategoryInfoUseCase, DeleteCategoryInfoUseCase {
 
     private JwtUtil jwtUtil;
     private CategoryRepository categoryRepository;
+    private ClipRepository clipRepository;
     private ModelMapper modelMapper;
     private EntityManager entityManager;
     @Override
@@ -64,5 +68,24 @@ public class CategoryService implements GetCategoryInfoUseCase, EditCategoryInfo
                                         CategoryEnum.EDIT_CATEGORY_FAIL.getValue(),"Fail to edit category"));
 
         return CategoryEnum.EDIT_CATEGORY_SUCCESS.getValue();
+    }
+
+    @Override
+    @Transactional
+    public String deleteCategoryById(HttpServletRequest request, String categoryId) {
+
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
+
+        //클립 데이터 삭제
+        List<Clip> clips = clipRepository.findByCategoryId(categoryId);
+        clipRepository.deleteAll(clips);
+        clipRepository.flush();
+        //카테고리 삭제
+        categoryRepository.deleteByIdAndMemberId(categoryId, memberId)
+                .filter(count -> count > 0)
+                .orElseThrow(() -> new ApplicationInternalException(
+                                    CategoryEnum.DELETE_CATEGORY_INFO_EMPTY.getValue(), "Delete Data Empty"
+                            ));
+        return CategoryEnum.DELETE_CATEGORY_SUCCESS.getValue();
     }
 }

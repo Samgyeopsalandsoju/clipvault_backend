@@ -1,5 +1,6 @@
 package com.samso.linkjoa.clip.application.port.out.repository;
 
+import com.samso.linkjoa.category.domain.entity.Category;
 import com.samso.linkjoa.clip.domain.entity.Clip;
 
 import java.util.List;
@@ -17,4 +18,9 @@ public interface ClipRepository {
     Optional<Clip> findByIdAndCategory_Member_Id(Long clipId, Long memberId);
 
     int deleteByIdAndMemberId(long clipId, long memberId);
+
+    List<Clip> findByCategoryId(String categoryId);
+
+    void deleteAll(List<Clip> clips);
+    void flush();
 }
