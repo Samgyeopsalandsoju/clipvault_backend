@@ -1,13 +1,11 @@
 package com.samso.linkjoa.category.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.samso.linkjoa.category.presentation.web.request.ReqCategory;
 import com.samso.linkjoa.clip.domain.entity.Clip;
 import com.samso.linkjoa.domain.member.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +15,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name="category")
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(name = "name", unique = false, nullable = false, length = 30)
     private String name;
     @Column(name = "color", nullable = false)
     private int color;
-
+    @Column(name = "sort_order", nullable = false)
+    private int sortOrder;
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;

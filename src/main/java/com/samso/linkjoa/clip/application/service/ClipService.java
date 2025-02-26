@@ -2,8 +2,7 @@ package com.samso.linkjoa.clip.application.service;
 
 import com.samso.linkjoa.category.application.out.repository.CategoryRepository;
 import com.samso.linkjoa.category.domain.entity.Category;
-import com.samso.linkjoa.category.presentation.web.request.CategoryRequest;
-import com.samso.linkjoa.category.presentation.web.response.CategoryResponse;
+import com.samso.linkjoa.category.presentation.web.request.ReqCategory;
 import com.samso.linkjoa.clip.application.port.out.repository.ClipRepository;
 import com.samso.linkjoa.clip.domain.ClipEnum;
 import com.samso.linkjoa.clip.domain.entity.Clip;
@@ -11,8 +10,8 @@ import com.samso.linkjoa.clip.presentation.port.in.CreateClipUseCase;
 import com.samso.linkjoa.clip.presentation.port.in.DeleteClipUseCase;
 import com.samso.linkjoa.clip.presentation.port.in.GetClipInfoUseCase;
 import com.samso.linkjoa.clip.presentation.port.in.ModifyClipUseCase;
-import com.samso.linkjoa.clip.presentation.web.request.ClipRequest;
-import com.samso.linkjoa.clip.presentation.web.response.ClipResponse;
+import com.samso.linkjoa.clip.presentation.web.request.ReqClip;
+import com.samso.linkjoa.clip.presentation.web.response.ResClip;
 import com.samso.linkjoa.core.common.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
 import com.samso.linkjoa.domain.member.Member;
@@ -44,15 +43,15 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
     private static final int PAGE_SIZE = 30;
 
     @Override
-    public List<ClipResponse> findRandomPublicClips(int pageSize, String visible) {
+    public List<ResClip> findRandomPublicClips(int pageSize, String visible) {
         int totalCount = clipRepository.countByVisible(visible);
 
         int randomStartIndex = (totalCount > pageSize) ?
                 ThreadLocalRandom.current().nextInt(0, (int) (totalCount - pageSize) + 1) : 0;
 
-        List<ClipResponse> publicClips = clipRepository.findPublicClipWithOffset(pageSize, randomStartIndex)
+        List<ResClip> publicClips = clipRepository.findPublicClipWithOffset(pageSize, randomStartIndex)
                 .stream()
-                .map(clip -> modelMapper.map(clip, ClipResponse.class))
+                .map(clip -> modelMapper.map(clip, ResClip.class))
                 .collect(Collectors.toList());
 
         Collections.shuffle(publicClips);
@@ -60,16 +59,16 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
         return publicClips;
     }
     @Override
-    public List<ClipResponse> findRandomPublicClips(String visible) {
+    public List<ResClip> findRandomPublicClips(String visible) {
 
         int totalCount = clipRepository.countByVisible(visible);
 
         int randomStartIndex = (totalCount > PAGE_SIZE) ?
                 ThreadLocalRandom.current().nextInt(0, (int) (totalCount - PAGE_SIZE) + 1) : 0;
 
-        List<ClipResponse> publicClips = clipRepository.findPublicClipWithOffset(PAGE_SIZE, randomStartIndex)
+        List<ResClip> publicClips = clipRepository.findPublicClipWithOffset(PAGE_SIZE, randomStartIndex)
                 .stream()
-                .map(clip -> modelMapper.map(clip, ClipResponse.class))
+                .map(clip -> modelMapper.map(clip, ResClip.class))
                 .collect(Collectors.toList());
 
         Collections.shuffle(publicClips);
@@ -79,18 +78,18 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
 
     @Override
     @Transactional
-    public String createClip(HttpServletRequest request, ClipRequest clipRequest) {
+    public String createClip(HttpServletRequest request, ReqClip reqClip) {
 
         long memberId = jwtUtil.getMemberIdFromRequest(request);
 
         Member member = entityManager.getReference(Member.class, memberId);
 
-        //TODO 도메인으로 분리
-        Category category = processCategory(clipRequest.getCategory(), member);
+        Category category = processCategory(reqClip.getCategory(), member);
+
         Clip clip = Clip.builder()
-                .title(clipRequest.getTitle())
-                .link(clipRequest.getLink())
-                .visible(clipRequest.getVisible())
+                .title(reqClip.getTitle())
+                .link(reqClip.getLink())
+                .visible(reqClip.getVisible())
                 .forkedCount(0L)
                 .category(category)
                 .build();
@@ -99,52 +98,55 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
         return ClipEnum.CREATE_CLIP_SUCCESS.getValue();
     }
 
-    private Category processCategory(CategoryRequest categoryRequest, Member member) {
-        return Optional.ofNullable(categoryRequest.getId())
-                .filter(id -> id !=0)
-                .map(id -> entityManager.getReference(Category.class, id))
-                .orElseGet(() ->{
-                    Category requestCategory = Category.builder()
-                            .name(categoryRequest.getName())
-                            .color(categoryRequest.getColor())
-                            .member(member)
-                            .build();
-                    return categoryRepository.save(requestCategory);
-                });
+    private Category processCategory(ReqCategory reqCategory, Member member) {
+
+        Optional<Category> optionalCategory = Optional.ofNullable(
+                                                entityManager.find(Category.class, reqCategory.getId())
+                                                );
+
+        return optionalCategory.orElseGet(() -> {
+            Category requestCategory = Category.builder()
+                    .id(reqCategory.getId())
+                    .name(reqCategory.getName())
+                    .color(reqCategory.getColor())
+                    .member(member)
+                    .build();
+            return categoryRepository.save(requestCategory);
+        });
     }
 
     @Override
-    public List<ClipResponse> getClipList(HttpServletRequest request) {
+    public List<ResClip> getClipList(HttpServletRequest request) {
         long memberId = jwtUtil.getMemberIdFromRequest(request);
 
         return clipRepository.findByCategoryMemberId(memberId)
                 .get()
                 .stream()
-                .map(clips -> modelMapper.map(clips, ClipResponse.class))
+                .map(clips -> modelMapper.map(clips, ResClip.class))
                 .collect(Collectors.toList());
     }
 
     @Transactional
     @Override
-    public String modifyClip(ClipRequest clipRequest) {
+    public String modifyClip(ReqClip reqClip) {
 
-        Clip clip = entityManager.find(Clip.class, clipRequest.getId());
+        Clip clip = entityManager.find(Clip.class, reqClip.getId());
         Assert.notNull(clip, ClipEnum.CLIP_EMPTY.getValue());
 
-        clip.modifyClip(clipRequest.getTitle()
-                        , clipRequest.getLink()
-                        , clipRequest.getVisible());
+        clip.modifyClip(reqClip.getTitle()
+                        , reqClip.getLink()
+                        , reqClip.getVisible());
 
         return ClipEnum.MODIFY_CLIP_SUCCESS.getValue();
     }
 
     @Override
-    public ClipResponse getClipById(HttpServletRequest request, Long clipId) {
+    public ResClip getClipById(HttpServletRequest request, Long clipId) {
         long memberId = jwtUtil.getMemberIdFromRequest(request);
 
         Clip clip = clipRepository.findByIdAndCategory_Member_Id(clipId, memberId)
                 .orElseThrow(() -> new ApplicationInternalException(ClipEnum.NOT_FOUND_CLIP.getValue(), "Not found modify clip"));
-        return modelMapper.map(clip, ClipResponse.class);
+        return modelMapper.map(clip, ResClip.class);
     }
 
     @Transactional

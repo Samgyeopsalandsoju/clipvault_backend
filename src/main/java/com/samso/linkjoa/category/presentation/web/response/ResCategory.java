@@ -6,8 +6,9 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryResponse {
-    private Long id;
+public class ResCategory {
+    private String id;
     private String name;
-    private  Long color;
+    private int color;
+    private int order;
 }
