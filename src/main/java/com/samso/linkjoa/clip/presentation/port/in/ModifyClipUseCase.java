@@ -1,8 +1,8 @@
 package com.samso.linkjoa.clip.presentation.port.in;
 
-import com.samso.linkjoa.clip.presentation.web.request.ClipRequest;
+import com.samso.linkjoa.clip.presentation.web.request.ReqClip;
 
 public interface ModifyClipUseCase {
 
-    String modifyClip(ClipRequest clipRequest);
+    String modifyClip(ReqClip reqClip);
 }

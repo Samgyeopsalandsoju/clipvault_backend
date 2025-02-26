@@ -1,6 +1,6 @@
 package com.samso.linkjoa.clip.presentation.port.in;
 
-import com.samso.linkjoa.clip.presentation.web.response.ClipResponse;
+import com.samso.linkjoa.clip.presentation.web.response.ResClip;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
@@ -8,12 +8,12 @@ import java.util.List;
 public interface GetClipInfoUseCase {
 
 
-    List<ClipResponse> findRandomPublicClips(String visible);
+    List<ResClip> findRandomPublicClips(String visible);
 
-    List<ClipResponse> findRandomPublicClips(int size, String visible);
+    List<ResClip> findRandomPublicClips(int size, String visible);
 
-    List<ClipResponse> getClipList(HttpServletRequest request);
+    List<ResClip> getClipList(HttpServletRequest request);
 
-    ClipResponse getClipById(HttpServletRequest request, Long clipId);
+    ResClip getClipById(HttpServletRequest request, Long clipId);
 
 }

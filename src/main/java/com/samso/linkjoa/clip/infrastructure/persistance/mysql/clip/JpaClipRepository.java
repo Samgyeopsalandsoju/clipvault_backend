@@ -15,7 +15,7 @@ public interface JpaClipRepository extends JpaRepository<Clip, Long> {
 
     @Query(value="SELECT * FROM clip WHERE visible = 'public' ORDER BY RAND() LIMIT :limit OFFSET :offset", nativeQuery = true)
     List<Clip> findPublicClipWithOffset(int limit, int offset);
-    Clip save(Clip clip);
+    //Clip save(Clip clip);
     @Query("SELECT c FROM Clip c Join FETCH c.category cate JOIN FETCH cate.member m WHERE m.id = :memberId ORDER BY c.modified_date DESC")
     Optional<List<Clip>> findByCategoryMemberId(Long memberId);
     Optional<Clip> findByIdAndCategory_Member_Id(Long clipId, Long memberId);
