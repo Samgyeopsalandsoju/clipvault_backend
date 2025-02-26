@@ -1,5 +1,6 @@
 package com.samso.linkjoa.clip.infrastructure.persistance.mysql.clip;
 
+import com.samso.linkjoa.category.domain.entity.Category;
 import com.samso.linkjoa.clip.domain.entity.Clip;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,4 +24,6 @@ public interface JpaClipRepository extends JpaRepository<Clip, Long> {
     @Query(value = "DELETE t1 FROM clip AS t1 JOIN category AS t2 ON t1.category_id = t2.id WHERE t1.id = :clipId AND t2.member_id = :memberId",
             nativeQuery = true)
     int deleteByIdAndMemberId(Long clipId, long memberId);
+
+    List<Clip> findByCategoryId(String categoryId);
 }

@@ -1,5 +1,6 @@
 package com.samso.linkjoa.category.presentation;
 
+import com.samso.linkjoa.category.presentation.port.in.DeleteCategoryInfoUseCase;
 import com.samso.linkjoa.category.presentation.port.in.EditCategoryInfoUseCase;
 import com.samso.linkjoa.category.presentation.port.in.GetCategoryInfoUseCase;
 import com.samso.linkjoa.category.presentation.web.request.ReqCategory;
@@ -16,6 +17,7 @@ public class CategoryController {
 
     private final GetCategoryInfoUseCase getCategoryInfoUseCase;
     private final EditCategoryInfoUseCase editCategoryInfoUseCase;
+    private final DeleteCategoryInfoUseCase deleteCategoryInfoUseCase;
     @GetMapping("/v1/category/list")
     public @ResponseBody List<ResCategory> getCategoryList(HttpServletRequest request){
 
@@ -26,5 +28,11 @@ public class CategoryController {
     public String editCategoryInfo(HttpServletRequest request, @RequestBody List<ReqCategory> reqCategoryList){
 
         return editCategoryInfoUseCase.editCategoryListInfo(request, reqCategoryList);
+    }
+
+    @DeleteMapping("/v1/category/delete/{categoryId}")
+    public String deleteCategoryInfo(HttpServletRequest request, @PathVariable String categoryId){
+
+        return deleteCategoryInfoUseCase.deleteCategoryById(request, categoryId);
     }
 }
