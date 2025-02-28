@@ -12,7 +12,9 @@ public enum ClipEnum {
     MODIFY_CLIP_SUCCESS("3003"),
     NOT_FOUND_CLIP("3004"),
     DELETE_SUCCESS("3005"),
-    DELETE_FAIL("3006");
+    DELETE_FAIL("3006"),
+    NOT_FOUND_CATEGORY("3007")
+    ;
 
     private final String value;
 }
