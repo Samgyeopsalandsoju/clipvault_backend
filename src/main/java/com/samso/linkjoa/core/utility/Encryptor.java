@@ -1,6 +1,4 @@
-package com.samso.linkjoa.core.Utility;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+package com.samso.linkjoa.core.utility;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;

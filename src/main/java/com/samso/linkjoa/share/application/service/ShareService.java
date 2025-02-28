@@ -1,6 +1,6 @@
 package com.samso.linkjoa.share.application.service;
 
-import com.samso.linkjoa.core.Utility.DateTimeUtil;
+import com.samso.linkjoa.core.utility.DateTimeUtil;
 import com.samso.linkjoa.core.common.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
 import com.samso.linkjoa.domain.member.Member;

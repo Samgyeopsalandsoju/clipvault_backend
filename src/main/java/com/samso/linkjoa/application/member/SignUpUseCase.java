@@ -1,6 +1,6 @@
 package com.samso.linkjoa.application.member;
 
-import com.samso.linkjoa.core.Utility.Encryptor;
+import com.samso.linkjoa.core.utility.Encryptor;
 import com.samso.linkjoa.core.common.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.Role;
 import com.samso.linkjoa.domain.member.Member;

@@ -1,15 +1,10 @@
 package com.samso.linkjoa.infrastructure.redis;
 
-import com.samso.linkjoa.core.Utility.Encryptor;
-import com.samso.linkjoa.domain.Authentication.Authentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;

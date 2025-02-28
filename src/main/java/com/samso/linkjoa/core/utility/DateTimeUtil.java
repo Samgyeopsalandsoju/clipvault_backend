@@ -1,4 +1,4 @@
-package com.samso.linkjoa.core.Utility;
+package com.samso.linkjoa.core.utility;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
