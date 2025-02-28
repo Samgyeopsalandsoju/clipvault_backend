@@ -10,7 +10,8 @@ public enum CategoryEnum {
     EDIT_CATEGORY_SUCCESS("6000"),
     EDIT_CATEGORY_FAIL("6001"),
     DELETE_CATEGORY_SUCCESS("6002"),
-    DELETE_CATEGORY_INFO_EMPTY("6003")
+    DELETE_CATEGORY_INFO_EMPTY("6003"),
+    NOT_FOUND_CATEGORY("6004")
     ;
     private final String value;
 }
