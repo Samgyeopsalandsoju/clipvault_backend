@@ -14,4 +14,6 @@ public interface CategoryRepository {
 
     Optional<Integer> deleteByIdAndMemberId(String categoryId, long memberId);
     Optional<Category> findById(String id);
+
+    int findMaxSortOrderByMemberId(Long memberId);
 }

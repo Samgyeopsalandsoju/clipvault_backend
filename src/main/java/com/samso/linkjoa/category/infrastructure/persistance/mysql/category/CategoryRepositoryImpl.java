@@ -35,4 +35,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     public Optional<Category> findById(String id) {
         return jpaCategoryRepository.findById(id);
     }
+
+    @Override
+    public int findMaxSortOrderByMemberId(Long memberId) {
+        return jpaCategoryRepository.findMaxSortOrderByMemberId(memberId);
+    }
 }

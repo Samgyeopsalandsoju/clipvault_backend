@@ -1,7 +1,6 @@
 package com.samso.linkjoa.clip.application.service;
 
 import com.samso.linkjoa.category.application.out.repository.CategoryRepository;
-import com.samso.linkjoa.category.domain.CategoryEnum;
 import com.samso.linkjoa.category.domain.entity.Category;
 import com.samso.linkjoa.category.presentation.web.request.ReqCategory;
 import com.samso.linkjoa.clip.application.port.out.repository.ClipRepository;
@@ -105,10 +104,12 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
                                                 );
 
         return optionalCategory.orElseGet(() -> {
+            int maxOrder = categoryRepository.findMaxSortOrderByMemberId(member.getId());
             Category requestCategory = Category.builder()
                     .id(reqCategory.getId())
                     .name(reqCategory.getName())
                     .color(reqCategory.getColor())
+                    .sortOrder(++maxOrder)
                     .member(member)
                     .build();
             return categoryRepository.save(requestCategory);
