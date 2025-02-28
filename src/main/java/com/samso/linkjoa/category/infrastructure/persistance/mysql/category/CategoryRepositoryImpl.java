@@ -30,4 +30,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     public Optional<Integer> deleteByIdAndMemberId(String categoryId, long memberId) {
         return jpaCategoryRepository.deleteByIdAndMemberId(categoryId, memberId);
     }
+
+    @Override
+    public Optional<Category> findById(String id) {
+        return jpaCategoryRepository.findById(id);
+    }
 }
