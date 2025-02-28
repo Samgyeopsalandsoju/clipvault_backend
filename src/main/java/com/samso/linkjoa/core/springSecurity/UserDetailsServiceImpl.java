@@ -1,6 +1,6 @@
 package com.samso.linkjoa.core.springSecurity;
 
-import com.samso.linkjoa.core.Utility.Encryptor;
+import com.samso.linkjoa.core.utility.Encryptor;
 import com.samso.linkjoa.domain.member.Member;
 import com.samso.linkjoa.domain.member.MemberEnum;
 import com.samso.linkjoa.domain.member.MemberRepository;
