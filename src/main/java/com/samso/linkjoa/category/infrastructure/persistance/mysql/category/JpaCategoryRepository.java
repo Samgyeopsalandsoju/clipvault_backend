@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface JpaCategoryRepository extends JpaRepository<Category, Long> {
+public interface JpaCategoryRepository extends JpaRepository<Category, String> {
 
     Category save(Category category);
     List<Category> findByMemberIdOrderBySortOrderAsc(long memberId);

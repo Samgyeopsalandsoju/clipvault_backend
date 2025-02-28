@@ -53,15 +53,35 @@ public class CategoryService implements GetCategoryInfoUseCase, EditCategoryInfo
         long memberId = jwtUtil.getMemberIdFromRequest(request);
         Member member = entityManager.getReference(Member.class, memberId);
 
-        List<Category> editCategoryList = IntStream.range(0, reqCategoryList.size())
-                            .mapToObj(index -> {
-                                     return Category.builder()
-                                             .id(reqCategoryList.get(index).getId())
-                                             .name(reqCategoryList.get(index).getName())
-                                             .color(reqCategoryList.get(index).getColor())
-                                             .sortOrder(index).member(member)
-                                             .build();
-                            }).collect(Collectors.toList());
+        List<Category> editCategoryList = IntStream.iterate(reqCategoryList.size() -1, i -> i>=0, i -> i-1)
+                        .mapToObj(i ->{
+                            ReqCategory reqCategory = reqCategoryList.get(i);
+                            return Optional.ofNullable(reqCategory.getId())
+                                    .flatMap(categoryRepository::findById)
+                                    .map(existingCategory -> {
+                                        existingCategory.setName(reqCategory.getName());
+                                        existingCategory.setColor(reqCategory.getColor());
+                                        existingCategory.setSortOrder(i);
+                                        return existingCategory;
+                                    })
+                                    .orElseGet(() -> Category.builder()
+                                            .id(reqCategory.getId())
+                                            .name(reqCategory.getName())
+                                            .color(reqCategory.getColor())
+                                            .sortOrder(i)
+                                            .member(member)
+                                            .build()
+                                    );
+                        }).collect(Collectors.toList());
+//        List<Category> editCategoryList = IntStream.range(0, reqCategoryList.size())
+//                            .mapToObj(index -> {
+//                                     return Category.builder()
+//                                             .id(reqCategoryList.get(index).getId())
+//                                             .name(reqCategoryList.get(index).getName())
+//                                             .color(reqCategoryList.get(index).getColor())
+//                                             .sortOrder(index).member(member)
+//                                             .build();
+//                            }).collect(Collectors.toList());
 
         Optional.ofNullable(categoryRepository.saveAll(editCategoryList))
                 .orElseThrow(() -> new ApplicationInternalException(

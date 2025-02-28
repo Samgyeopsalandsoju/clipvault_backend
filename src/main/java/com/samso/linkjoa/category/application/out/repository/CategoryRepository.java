@@ -13,4 +13,5 @@ public interface CategoryRepository {
     List<Category> saveAll(List<Category> editCategoryList);
 
     Optional<Integer> deleteByIdAndMemberId(String categoryId, long memberId);
+    Optional<Category> findById(String id);
 }

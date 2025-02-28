@@ -24,7 +24,7 @@ public class CategoryController {
         return getCategoryInfoUseCase.getCategoryList(request);
     }
 
-    @PostMapping("/v1/category/edit")
+    @PostMapping("/v1/category/post")
     public String editCategoryInfo(HttpServletRequest request, @RequestBody List<ReqCategory> reqCategoryList){
 
         return editCategoryInfoUseCase.editCategoryListInfo(request, reqCategoryList);
