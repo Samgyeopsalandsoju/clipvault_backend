@@ -49,9 +49,9 @@ public class Clip {
     @JoinColumn(name="category_id", nullable = false)
     private Category category;
 
-    public void modifyClip(String title, String link, String visible){
+    public void modifyClip(Category category, String title, String link){
+        this.category = category;
         this.title = StringUtil.isNullOrEmpty(title) ? this.title : title;
         this.link = StringUtil.isNullOrEmpty(link) ? this.link : link;
-        this.visible = StringUtil.isNullOrEmpty(visible) ? this.visible : visible;
     }
 }

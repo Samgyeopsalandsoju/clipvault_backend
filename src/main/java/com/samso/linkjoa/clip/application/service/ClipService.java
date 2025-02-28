@@ -1,6 +1,7 @@
 package com.samso.linkjoa.clip.application.service;
 
 import com.samso.linkjoa.category.application.out.repository.CategoryRepository;
+import com.samso.linkjoa.category.domain.CategoryEnum;
 import com.samso.linkjoa.category.domain.entity.Category;
 import com.samso.linkjoa.category.presentation.web.request.ReqCategory;
 import com.samso.linkjoa.clip.application.port.out.repository.ClipRepository;
@@ -15,7 +16,6 @@ import com.samso.linkjoa.clip.presentation.web.response.ResClip;
 import com.samso.linkjoa.core.common.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
 import com.samso.linkjoa.domain.member.Member;
-import io.jsonwebtoken.lang.Assert;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -130,12 +130,19 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
     @Override
     public String modifyClip(ReqClip reqClip) {
 
-        Clip clip = entityManager.find(Clip.class, reqClip.getId());
-        Assert.notNull(clip, ClipEnum.CLIP_EMPTY.getValue());
+        //카테고리 조회
+        Category changeCategory = categoryRepository.findById(reqClip.getCategory().getId())
+                .orElseThrow(() -> new ApplicationInternalException(CategoryEnum.NOT_FOUND_CATEGORY.getValue(), "Not Found Category"));
 
-        clip.modifyClip(reqClip.getTitle()
+        //기존 클립 조회
+        Clip existingClip = clipRepository.findById(reqClip.getId())
+                .orElseThrow(() -> new ApplicationInternalException(ClipEnum.CLIP_EMPTY.getValue(), "Not Found Clip"));
+
+        //클립 정보 변경
+        existingClip.modifyClip(changeCategory
+                        , reqClip.getTitle()
                         , reqClip.getLink()
-                        , reqClip.getVisible());
+                        );
 
         return ClipEnum.MODIFY_CLIP_SUCCESS.getValue();
     }

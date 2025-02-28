@@ -73,15 +73,6 @@ public class CategoryService implements GetCategoryInfoUseCase, EditCategoryInfo
                                             .build()
                                     );
                         }).collect(Collectors.toList());
-//        List<Category> editCategoryList = IntStream.range(0, reqCategoryList.size())
-//                            .mapToObj(index -> {
-//                                     return Category.builder()
-//                                             .id(reqCategoryList.get(index).getId())
-//                                             .name(reqCategoryList.get(index).getName())
-//                                             .color(reqCategoryList.get(index).getColor())
-//                                             .sortOrder(index).member(member)
-//                                             .build();
-//                            }).collect(Collectors.toList());
 
         Optional.ofNullable(categoryRepository.saveAll(editCategoryList))
                 .orElseThrow(() -> new ApplicationInternalException(
