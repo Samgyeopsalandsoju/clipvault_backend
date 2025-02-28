@@ -132,7 +132,7 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
 
         //카테고리 조회
         Category changeCategory = categoryRepository.findById(reqClip.getCategory().getId())
-                .orElseThrow(() -> new ApplicationInternalException(CategoryEnum.NOT_FOUND_CATEGORY.getValue(), "Not Found Category"));
+                .orElseThrow(() -> new ApplicationInternalException(ClipEnum.NOT_FOUND_CATEGORY.getValue(), "Not Found Category"));
 
         //기존 클립 조회
         Clip existingClip = clipRepository.findById(reqClip.getId())
