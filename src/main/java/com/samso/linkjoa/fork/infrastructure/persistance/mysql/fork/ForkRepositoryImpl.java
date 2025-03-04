@@ -21,6 +21,11 @@ public class ForkRepositoryImpl implements ForkRepository {
     public Fork save(Fork newFork) { return jpaForkRepository.save(newFork); }
 
     @Override
+    public List<Long> findByMemberId(long memberId) {
+        return jpaForkRepository.findByMemberId(memberId);
+    }
+
+    @Override
     public Optional<List<Fork>> findByMemberId(long memberId, Sort sort) {
         return jpaForkRepository.findByMemberId(memberId, sort);
     }
