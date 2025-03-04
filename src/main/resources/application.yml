@@ -16,8 +16,10 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: samgyeopjoa@gmail.com
-    password: mhvqizlobtavojpc
+    #username: samgyeopjoa@gmail.com
+    username: clipvault.service@gmail.com
+    #password: mhvqizlobtavojpc
+    password: quqigafcawfcxlmg
     properties:
       mail:
         smtp:
