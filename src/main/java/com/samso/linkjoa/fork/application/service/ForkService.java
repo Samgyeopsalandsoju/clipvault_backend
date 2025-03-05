@@ -39,8 +39,9 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase, De
     @Transactional
     @Override
     public String createFork(HttpServletRequest request, ReqFork reqFork) {
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
         //이미 포크한 클립인지 확인
-        forkRepository.findByClipId(reqFork.getClipId())
+        forkRepository.findByClipIdAndMemberId(reqFork.getClipId(), memberId)
                 .ifPresent(clip -> {
                     throw new ApplicationInternalException(
                             ForkEnum.ALREADY_FORKED_CLIP.getValue(), "Already Forked Clip"

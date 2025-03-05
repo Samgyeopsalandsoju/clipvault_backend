@@ -39,7 +39,7 @@ public class ForkRepositoryImpl implements ForkRepository {
     }
 
     @Override
-    public Optional<Fork> findByClipId(long clipId) {
-        return jpaForkRepository.findByClipId(clipId);
+    public Optional<Fork> findByClipIdAndMemberId(long clipId, long memberId) {
+        return jpaForkRepository.findByClipIdAndMemberId(clipId, memberId);
     }
 }
