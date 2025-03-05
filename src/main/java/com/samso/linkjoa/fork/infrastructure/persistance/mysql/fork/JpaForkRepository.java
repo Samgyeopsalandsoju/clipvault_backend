@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface JpaForkRepository extends JpaRepository<Fork, Long> {
 
-    @Query("SELECT f.id FROM Fork f WHERE f.member.id = :memberId")
+    @Query("SELECT f.clipId FROM Fork f WHERE f.member.id = :memberId")
     List<Long> findByMemberId(long memberId);
     Optional<List<Fork>> findByMemberId(long memberId, Sort sort);
     Optional<Integer> deleteByIdAndMemberId(long forkId, long memberId);
