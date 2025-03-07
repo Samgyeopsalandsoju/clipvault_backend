@@ -28,4 +28,9 @@ public class ShareRepositoryImpl implements ShareRepository {
     public int deleteByIdAndMemberId(Long linkId, long memberId) {
         return jpaShareRepository.deleteByIdAndMemberId(linkId, memberId);
     }
+
+    @Override
+    public int deleteExpiredShares() {
+        return jpaShareRepository.deleteExpiredShares();
+    }
 }
