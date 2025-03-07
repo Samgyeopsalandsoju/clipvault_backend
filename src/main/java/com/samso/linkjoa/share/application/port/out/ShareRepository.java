@@ -14,7 +14,7 @@ public interface ShareRepository {
 
     List<Share> findByDueAfterAndMemberId(LocalDateTime due, long memberId, Sort sort);
 
-    @Transactional
-    @Modifying
     int deleteByIdAndMemberId(Long linkId, long memberId);
+
+    int deleteExpiredShares();
 }

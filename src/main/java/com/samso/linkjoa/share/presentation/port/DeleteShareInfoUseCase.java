@@ -5,4 +5,5 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface DeleteShareInfoUseCase {
 
     String deleteLinkById(HttpServletRequest request, Long linkId);
+    void deleteExpireDueBatch();
 }

@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class ShareService implements CreateShareInfoUseCase, GetShareInfoUseCase, DeleteShareInfoUseCase {
+public class ShareService implements CreateShareInfoUseCase, GetShareInfoUseCase, DeleteShareInfoUseCase{
 
     private final JwtUtil jwtUtil;
     private final ShareRepository shareRepository;
@@ -72,6 +73,7 @@ public class ShareService implements CreateShareInfoUseCase, GetShareInfoUseCase
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public String deleteLinkById(HttpServletRequest request, Long linkId) {
 
@@ -84,5 +86,12 @@ public class ShareService implements CreateShareInfoUseCase, GetShareInfoUseCase
                 .orElseThrow(() -> new ApplicationInternalException(ShareEnum.NOT_FOUND_DELETE_SHARE_LINK.getValue(), "Not found delete link"));
 
         return ShareEnum.DELETE_SHARE_LINK_SUCCESS.getValue();
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 0 0 * * ?")
+    @Override
+    public void deleteExpireDueBatch() {
+        int deletedCount = shareRepository.deleteExpiredShares();
     }
 }
