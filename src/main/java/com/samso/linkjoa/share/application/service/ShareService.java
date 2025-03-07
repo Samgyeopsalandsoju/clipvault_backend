@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,7 +65,7 @@ public class ShareService implements CreateShareInfoUseCase, GetShareInfoUseCase
 
         long memberId = jwtUtil.getMemberIdFromRequest(request);
 
-        List<Share> shareList = shareRepository.findByMemberId(memberId, Sort.by(Sort.Direction.DESC, "createdDate"));
+        List<Share> shareList = shareRepository.findByDueAfterAndMemberId(LocalDateTime.now(),memberId, Sort.by(Sort.Direction.DESC, "createdDate"));
 
         return  shareList.stream()
                 .map(share -> modelMapper.map(share, ResShare.class))

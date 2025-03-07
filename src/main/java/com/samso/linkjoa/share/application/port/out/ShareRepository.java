@@ -5,13 +5,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ShareRepository {
 
     Share save(Share share);
 
-    List<Share> findByMemberId(long memberId, Sort sort);
+    List<Share> findByDueAfterAndMemberId(LocalDateTime due, long memberId, Sort sort);
 
     @Transactional
     @Modifying
