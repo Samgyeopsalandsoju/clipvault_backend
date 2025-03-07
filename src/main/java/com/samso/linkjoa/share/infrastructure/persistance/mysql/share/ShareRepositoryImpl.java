@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -19,8 +20,8 @@ public class ShareRepositoryImpl implements ShareRepository {
     }
 
     @Override
-    public List<Share> findByMemberId(long memberId, Sort sort) {
-        return jpaShareRepository.findByMemberId(memberId, sort);
+    public List<Share> findByDueAfterAndMemberId(LocalDateTime due, long memberId, Sort sort) {
+        return jpaShareRepository.findByDueAfterAndMemberId(due, memberId, sort);
     }
 
     @Override
