@@ -10,6 +10,7 @@ import com.samso.linkjoa.category.presentation.web.response.ResCategory;
 import com.samso.linkjoa.category.domain.entity.Category;
 import com.samso.linkjoa.clip.application.port.out.repository.ClipRepository;
 import com.samso.linkjoa.clip.domain.entity.Clip;
+import com.samso.linkjoa.core.common.commonEnum.CreateLimitEnum;
 import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
 import com.samso.linkjoa.domain.member.Member;
@@ -53,6 +54,9 @@ public class CategoryService implements GetCategoryInfoUseCase, EditCategoryInfo
         long memberId = jwtUtil.getMemberIdFromRequest(request);
         Member member = entityManager.getReference(Member.class, memberId);
 
+        if(reqCategoryList.size() > CreateLimitEnum.CATEGORY.getValue()){
+            throw new ApplicationInternalException(String.valueOf(CreateLimitEnum.OVER.getValue()), "Over the maximum limit of Category");
+        }
         List<Category> editCategoryList = IntStream.iterate(reqCategoryList.size() -1, i -> i>=0, i -> i-1)
                         .mapToObj(i ->{
                             ReqCategory reqCategory = reqCategoryList.get(i);
