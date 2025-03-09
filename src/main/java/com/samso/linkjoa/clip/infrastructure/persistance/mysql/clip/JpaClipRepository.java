@@ -24,6 +24,6 @@ public interface JpaClipRepository extends JpaRepository<Clip, Long> {
     @Query(value = "DELETE t1 FROM clip AS t1 JOIN category AS t2 ON t1.category_id = t2.id WHERE t1.id = :clipId AND t2.member_id = :memberId",
             nativeQuery = true)
     int deleteByIdAndMemberId(Long clipId, long memberId);
-
     List<Clip> findByCategoryId(String categoryId);
+    long countByCategoryMemberId(long memberId);
 }
