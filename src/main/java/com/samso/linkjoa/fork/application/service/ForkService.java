@@ -2,7 +2,8 @@ package com.samso.linkjoa.fork.application.service;
 
 import com.samso.linkjoa.clip.application.port.out.repository.ClipRepository;
 import com.samso.linkjoa.clip.domain.entity.Clip;
-import com.samso.linkjoa.core.common.ApplicationInternalException;
+import com.samso.linkjoa.core.common.commonEnum.CreateLimitEnum;
+import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
 import com.samso.linkjoa.domain.member.Member;
 import com.samso.linkjoa.fork.application.port.out.repository.ForkRepository;
@@ -48,16 +49,23 @@ public class ForkService implements CreateNewForkUseCase, GetForkInfoUseCase, De
                     );
                 });
         //내 클립인지 확인
-        Member loginMember = entityManager.getReference(Member.class, jwtUtil.getMemberIdFromRequest(request));
+        Member loginMember = entityManager.getReference(Member.class, memberId);
         Clip clip = clipRepository.findById(reqFork.getClipId())
                 .filter(c -> !Objects.equals(loginMember, c.getCategory().getMember()))
                 .orElseThrow(() -> new ApplicationInternalException(
                         ForkEnum.OWN_CLIP.getValue(), "Cannot Fork Your Own Clip")
                 );
+
+        //포크 최대 갯수제한
+        long myForkCount = forkRepository.countByMemberId(loginMember.getId());
+        if (myForkCount >= CreateLimitEnum.FORK.getValue()){
+           throw new ApplicationInternalException(String.valueOf(CreateLimitEnum.OVER.getValue()), "Over the maximum limit of Fork");
+        }
+
         forkRepository.save(reqFork.toEntity(clip, loginMember));
 
-        long forkCount = clip.getForkedCount();
-        clip.setForkedCount(++forkCount);
+        long forkedCount = clip.getForkedCount();
+        clip.setForkedCount(++forkedCount);
 
         return ForkEnum.CREATE_SUCCESS.getValue();
     }
