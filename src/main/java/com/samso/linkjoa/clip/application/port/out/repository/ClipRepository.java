@@ -14,13 +14,10 @@ public interface ClipRepository {
     Clip save(Clip clip);
     Optional<Clip> findById(long clipId);
     Optional<List<Clip>> findByCategoryMemberId(Long memberId);
-
     Optional<Clip> findByIdAndCategory_Member_Id(Long clipId, Long memberId);
-
     int deleteByIdAndMemberId(long clipId, long memberId);
-
     List<Clip> findByCategoryId(String categoryId);
-
     void deleteAll(List<Clip> clips);
     void flush();
+    long countByCategoryMemberId(long memberId);
 }

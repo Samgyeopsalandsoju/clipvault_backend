@@ -12,6 +12,7 @@ import com.samso.linkjoa.clip.presentation.port.in.GetClipInfoUseCase;
 import com.samso.linkjoa.clip.presentation.port.in.ModifyClipUseCase;
 import com.samso.linkjoa.clip.presentation.web.request.ReqClip;
 import com.samso.linkjoa.clip.presentation.web.response.ResClip;
+import com.samso.linkjoa.core.common.commonEnum.CreateLimitEnum;
 import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
 import com.samso.linkjoa.domain.member.Member;
@@ -82,6 +83,12 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
         long memberId = jwtUtil.getMemberIdFromRequest(request);
 
         Member member = entityManager.getReference(Member.class, memberId);
+
+        //갯수체크
+        long myClipCount = clipRepository.countByCategoryMemberId(memberId);
+        if(myClipCount >= CreateLimitEnum.CLIP.getValue()){
+            throw new ApplicationInternalException(String.valueOf(CreateLimitEnum.OVER.getValue()), "Over the maximum limit of Clip");
+        }
 
         Category category = processCategory(reqClip.getCategory(), member);
 
