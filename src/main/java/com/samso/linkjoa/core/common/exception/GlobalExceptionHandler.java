@@ -1,4 +1,4 @@
-package com.samso.linkjoa.core.common;
+package com.samso.linkjoa.core.common.exception;
 
 import com.samso.linkjoa.core.common.response.ErrorResponse;
 import com.samso.linkjoa.core.common.response.FailResponse;

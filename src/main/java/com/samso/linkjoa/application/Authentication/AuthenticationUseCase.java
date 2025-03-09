@@ -1,7 +1,7 @@
 package com.samso.linkjoa.application.Authentication;
 
 import com.samso.linkjoa.core.utility.Encryptor;
-import com.samso.linkjoa.core.common.ApplicationInternalException;
+import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.domain.Authentication.Authentication;
 import com.samso.linkjoa.domain.Authentication.AuthenticationEnum;
 import com.samso.linkjoa.domain.mail.MailSender;

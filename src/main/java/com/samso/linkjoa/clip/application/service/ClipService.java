@@ -12,7 +12,7 @@ import com.samso.linkjoa.clip.presentation.port.in.GetClipInfoUseCase;
 import com.samso.linkjoa.clip.presentation.port.in.ModifyClipUseCase;
 import com.samso.linkjoa.clip.presentation.web.request.ReqClip;
 import com.samso.linkjoa.clip.presentation.web.response.ResClip;
-import com.samso.linkjoa.core.common.ApplicationInternalException;
+import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
 import com.samso.linkjoa.domain.member.Member;
 import jakarta.persistence.EntityManager;

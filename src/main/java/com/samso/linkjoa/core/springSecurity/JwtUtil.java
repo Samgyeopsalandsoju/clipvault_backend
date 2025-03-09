@@ -4,15 +4,12 @@ import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
-import com.samso.linkjoa.core.common.ApplicationInternalException;
 import com.samso.linkjoa.domain.member.MemberEnum;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.lang.Assert;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 

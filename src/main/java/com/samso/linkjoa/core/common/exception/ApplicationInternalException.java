@@ -1,4 +1,4 @@
-package com.samso.linkjoa.core.common;
+package com.samso.linkjoa.core.common.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
