@@ -14,11 +14,10 @@ import java.util.List;
 @Repository
 public interface JpaShareRepository extends JpaRepository<Share, Long> {
     List<Share> findByDueAfterAndMemberId(LocalDateTime due, long memberId, Sort sort);
-
     @Modifying
     int deleteByIdAndMemberId(Long linkId, long memberId);
-
     @Modifying
     @Query("delete from Share s WHERE s.due < current timestamp")
     int deleteExpiredShares();
+    long countByMemberId(long memberId);
 }

@@ -1,5 +1,6 @@
 package com.samso.linkjoa.share.application.service;
 
+import com.samso.linkjoa.core.common.commonEnum.CreateLimitEnum;
 import com.samso.linkjoa.core.utility.DateTimeUtil;
 import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
@@ -45,6 +46,12 @@ public class ShareService implements CreateShareInfoUseCase, GetShareInfoUseCase
     public String createLink(HttpServletRequest request, ReqShare reqShare) {
 
         long memberId = jwtUtil.getMemberIdFromRequest(request);
+
+        //만들 수 있는 최대 수 체크
+        long myShareCount = shareRepository.countByMemberId(memberId);
+        if(myShareCount >= CreateLimitEnum.SHARE.getValue()){
+            throw new ApplicationInternalException(String.valueOf(CreateLimitEnum.OVER.getValue()), "Over the maximum limit of share");
+        }
 
         shareRepository.save(Share
                 .builder()
