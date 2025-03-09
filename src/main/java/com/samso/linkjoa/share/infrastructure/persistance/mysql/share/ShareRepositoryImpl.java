@@ -23,14 +23,12 @@ public class ShareRepositoryImpl implements ShareRepository {
     public List<Share> findByDueAfterAndMemberId(LocalDateTime due, long memberId, Sort sort) {
         return jpaShareRepository.findByDueAfterAndMemberId(due, memberId, sort);
     }
-
     @Override
     public int deleteByIdAndMemberId(Long linkId, long memberId) {
         return jpaShareRepository.deleteByIdAndMemberId(linkId, memberId);
     }
-
     @Override
-    public int deleteExpiredShares() {
-        return jpaShareRepository.deleteExpiredShares();
-    }
+    public int deleteExpiredShares() { return jpaShareRepository.deleteExpiredShares(); }
+    @Override
+    public long countByMemberId(long memberId) { return jpaShareRepository.countByMemberId(memberId); }
 }
