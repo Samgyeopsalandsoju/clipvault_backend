@@ -13,4 +13,5 @@ public interface ForkRepository  {
     Optional<List<Fork>> findByMemberId(long memberId, Sort sort);
     Optional<Integer> deleteByIdAndMemberId(long forkId, long memberId);
     Optional<Fork> findByClipIdAndMemberId(long clipId, long memberId);
+    Long countByMemberId(long memberId);
 }

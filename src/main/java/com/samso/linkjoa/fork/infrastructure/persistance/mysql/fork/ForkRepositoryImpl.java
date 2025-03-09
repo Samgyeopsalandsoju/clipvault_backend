@@ -19,17 +19,10 @@ public class ForkRepositoryImpl implements ForkRepository {
 
     @Override
     public Fork save(Fork newFork) { return jpaForkRepository.save(newFork); }
-
     @Override
-    public List<Long> findByMemberId(long memberId) {
-        return jpaForkRepository.findByMemberId(memberId);
-    }
-
+    public List<Long> findByMemberId(long memberId) { return jpaForkRepository.findByMemberId(memberId); }
     @Override
-    public Optional<List<Fork>> findByMemberId(long memberId, Sort sort) {
-        return jpaForkRepository.findByMemberId(memberId, sort);
-    }
-
+    public Optional<List<Fork>> findByMemberId(long memberId, Sort sort) { return jpaForkRepository.findByMemberId(memberId, sort); }
     @Override
     @Modifying
     @Transactional
@@ -37,9 +30,10 @@ public class ForkRepositoryImpl implements ForkRepository {
         return jpaForkRepository.deleteByIdAndMemberId(forkId, memberId)
                                 .filter(f -> f > 0);
     }
-
     @Override
-    public Optional<Fork> findByClipIdAndMemberId(long clipId, long memberId) {
-        return jpaForkRepository.findByClipIdAndMemberId(clipId, memberId);
+    public Optional<Fork> findByClipIdAndMemberId(long clipId, long memberId) { return jpaForkRepository.findByClipIdAndMemberId(clipId, memberId); }
+    @Override
+    public Long countByMemberId(long memberId) {
+        return jpaForkRepository.countByMemberId(memberId);
     }
 }
