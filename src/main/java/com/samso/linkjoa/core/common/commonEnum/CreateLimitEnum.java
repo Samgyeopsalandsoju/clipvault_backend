@@ -6,16 +6,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CreateLimitEnum {
 
-//    CATEGORY(10),
-//    CLIP(100),
-//    FORK(20),
-//    SHARE(10),
-//    OVER(99999)
-
-    CATEGORY(5),
-    CLIP(5),
-    FORK(5),
-    SHARE(5),
+    CATEGORY(10),
+    CLIP(100),
+    FORK(20),
+    SHARE(10),
     OVER(99999)
     ;
     private final long value;
