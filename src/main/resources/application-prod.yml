@@ -9,7 +9,8 @@ spring:
       connection-timeout: 30000
       auto-commit: true
       minimum-idle: 5
-
+  jpa:
+    show-sql: false
   data:
     redis:
       host: 127.0.0.1
