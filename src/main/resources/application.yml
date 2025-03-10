@@ -6,7 +6,6 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: none
-    show-sql: true
     properties:
       hibernate:
         connection:
