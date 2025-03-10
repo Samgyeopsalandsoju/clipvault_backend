@@ -1,6 +1,6 @@
 package com.samso.linkjoa.category.infrastructure.persistance.mysql.category;
 
-import com.samso.linkjoa.category.application.out.repository.CategoryRepository;
+import com.samso.linkjoa.category.application.port.out.repository.CategoryRepository;
 import com.samso.linkjoa.category.domain.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

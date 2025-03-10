@@ -1,4 +1,4 @@
-package com.samso.linkjoa.category.application.out.repository;
+package com.samso.linkjoa.category.application.port.out.repository;
 
 import com.samso.linkjoa.category.domain.entity.Category;
 
