@@ -1,7 +1,7 @@
 package com.samso.linkjoa.fork.presentation.web.request;
 
 import com.samso.linkjoa.clip.domain.entity.Clip;
-import com.samso.linkjoa.domain.member.Member;
+import com.samso.linkjoa.member.domain.entity.Member;
 import com.samso.linkjoa.fork.domain.entity.Fork;
 import lombok.Builder;
 import lombok.Data;

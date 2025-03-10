@@ -1,4 +1,4 @@
-package com.samso.linkjoa.domain.mail;
+package com.samso.linkjoa.core.infrastructure.mail;
 
 import org.springframework.stereotype.Component;
 

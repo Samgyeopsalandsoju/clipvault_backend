@@ -1,9 +1,9 @@
 package com.samso.linkjoa.core.springSecurity;
 
 import com.samso.linkjoa.core.utility.Encryptor;
-import com.samso.linkjoa.domain.member.Member;
-import com.samso.linkjoa.domain.member.MemberEnum;
-import com.samso.linkjoa.domain.member.MemberRepository;
+import com.samso.linkjoa.member.application.port.out.repository.MemberRepository;
+import com.samso.linkjoa.member.domain.entity.Member;
+import com.samso.linkjoa.member.domain.MemberEnum;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.SecondaryRow;
 import org.springframework.security.core.GrantedAuthority;

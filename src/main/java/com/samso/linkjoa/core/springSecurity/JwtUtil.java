@@ -4,7 +4,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
-import com.samso.linkjoa.domain.member.MemberEnum;
+import com.samso.linkjoa.member.domain.MemberEnum;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.lang.Assert;

@@ -1,4 +1,4 @@
-package com.samso.linkjoa.infrastructure.redis;
+package com.samso.linkjoa.core.infrastructure.redis;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

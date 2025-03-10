@@ -1,6 +1,6 @@
 package com.samso.linkjoa.clip.application.service;
 
-import com.samso.linkjoa.category.application.out.repository.CategoryRepository;
+import com.samso.linkjoa.category.application.port.out.repository.CategoryRepository;
 import com.samso.linkjoa.category.domain.entity.Category;
 import com.samso.linkjoa.category.presentation.web.request.ReqCategory;
 import com.samso.linkjoa.clip.application.port.out.repository.ClipRepository;
@@ -15,7 +15,7 @@ import com.samso.linkjoa.clip.presentation.web.response.ResClip;
 import com.samso.linkjoa.core.common.commonEnum.CreateLimitEnum;
 import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
-import com.samso.linkjoa.domain.member.Member;
+import com.samso.linkjoa.member.domain.entity.Member;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
