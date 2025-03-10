@@ -37,7 +37,11 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public int findMaxSortOrderByMemberId(Long memberId) {
+    public Optional<Integer> findMaxSortOrderByMemberId(Long memberId) {
         return jpaCategoryRepository.findMaxSortOrderByMemberId(memberId);
+    }
+    @Override
+    public long countByMemberId(Long memberId) {
+        return jpaCategoryRepository.countByMemberId(memberId);
     }
 }

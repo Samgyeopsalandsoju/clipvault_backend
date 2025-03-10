@@ -15,11 +15,10 @@ public interface JpaCategoryRepository extends JpaRepository<Category, String> {
 
     Category save(Category category);
     List<Category> findByMemberIdOrderBySortOrderAsc(long memberId);
-
     @Modifying
     @Query("delete from Category c where c.id = :id AND c.member.id = :memberId")
     Optional<Integer> deleteByIdAndMemberId(@Param("id") String categoryId, @Param("memberId") long memberId);
-
     @Query("select MAX(c.sortOrder) from Category c where c.member.id = :memberId")
-    int findMaxSortOrderByMemberId(@Param("memberId") Long memberId);
+    Optional<Integer> findMaxSortOrderByMemberId(@Param("memberId") Long memberId);
+    long countByMemberId(Long memberId);
 }

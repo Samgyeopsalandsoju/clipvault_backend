@@ -83,15 +83,14 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
         long memberId = jwtUtil.getMemberIdFromRequest(request);
 
         Member member = entityManager.getReference(Member.class, memberId);
-
+        //카테고리 - 없으면 생성
+        Category category = processCategory(reqClip.getCategory(), member);
         //갯수체크
         long myClipCount = clipRepository.countByCategoryMemberId(memberId);
         if(myClipCount >= CreateLimitEnum.CLIP.getValue()){
             throw new ApplicationInternalException(String.valueOf(CreateLimitEnum.OVER.getValue()), "Over the maximum limit of Clip");
         }
-
-        Category category = processCategory(reqClip.getCategory(), member);
-
+        //클립생성
         Clip clip = Clip.builder()
                 .title(reqClip.getTitle())
                 .link(reqClip.getLink())
@@ -109,18 +108,30 @@ public class ClipService implements CreateClipUseCase, GetClipInfoUseCase, Modif
         Optional<Category> optionalCategory = Optional.ofNullable(
                                                 entityManager.find(Category.class, reqCategory.getId())
                                                 );
-
+        //카테고리 생성
         return optionalCategory.orElseGet(() -> {
-            int maxOrder = categoryRepository.findMaxSortOrderByMemberId(member.getId());
+            //카테고리 생성 수 제한
+            long myCategoryCount  = categoryRepository.countByMemberId(member.getId());
+            if(myCategoryCount > CreateLimitEnum.CLIP.getValue()){
+                throw new ApplicationInternalException(String.valueOf(CreateLimitEnum.OVER.getValue()), "Over the maximum limit of Category");
+            }
+            //카테고리 정렬순서
+            int maxOrder = findSortMaxOrder(member);
             Category requestCategory = Category.builder()
                     .id(reqCategory.getId())
                     .name(reqCategory.getName())
                     .color(reqCategory.getColor())
-                    .sortOrder(++maxOrder)
+                    .sortOrder(maxOrder)
                     .member(member)
                     .build();
             return categoryRepository.save(requestCategory);
         });
+    }
+
+    private int findSortMaxOrder(Member member){
+        return categoryRepository.findMaxSortOrderByMemberId(member.getId())
+                .map(max -> ++max)
+                .orElse(0);
     }
 
     @Override

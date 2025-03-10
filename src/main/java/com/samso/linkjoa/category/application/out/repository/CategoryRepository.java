@@ -9,11 +9,9 @@ public interface CategoryRepository {
 
     Category save(Category category);
     List<Category> findByMemberIdOrderBySortOrderAsc(long memberId);
-
     List<Category> saveAll(List<Category> editCategoryList);
-
     Optional<Integer> deleteByIdAndMemberId(String categoryId, long memberId);
     Optional<Category> findById(String id);
-
-    int findMaxSortOrderByMemberId(Long memberId);
+    Optional<Integer> findMaxSortOrderByMemberId(Long memberId);
+    long countByMemberId(Long id);
 }
