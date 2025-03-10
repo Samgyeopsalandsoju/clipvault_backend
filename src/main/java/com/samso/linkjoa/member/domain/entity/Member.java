@@ -1,4 +1,4 @@
-package com.samso.linkjoa.domain.member;
+package com.samso.linkjoa.member.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.samso.linkjoa.core.springSecurity.Role;

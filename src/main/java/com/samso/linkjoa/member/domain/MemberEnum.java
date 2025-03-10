@@ -1,4 +1,4 @@
-package com.samso.linkjoa.domain.member;
+package com.samso.linkjoa.member.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
