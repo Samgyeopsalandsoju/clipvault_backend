@@ -1,6 +1,6 @@
 package com.samso.linkjoa.category.application.service;
 
-import com.samso.linkjoa.category.application.out.repository.CategoryRepository;
+import com.samso.linkjoa.category.application.port.out.repository.CategoryRepository;
 import com.samso.linkjoa.category.domain.CategoryEnum;
 import com.samso.linkjoa.category.presentation.port.in.DeleteCategoryInfoUseCase;
 import com.samso.linkjoa.category.presentation.port.in.EditCategoryInfoUseCase;
@@ -13,7 +13,7 @@ import com.samso.linkjoa.clip.domain.entity.Clip;
 import com.samso.linkjoa.core.common.commonEnum.CreateLimitEnum;
 import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
-import com.samso.linkjoa.domain.member.Member;
+import com.samso.linkjoa.member.domain.entity.Member;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
