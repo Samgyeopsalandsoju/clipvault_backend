@@ -4,7 +4,7 @@ import com.samso.linkjoa.core.common.commonEnum.CreateLimitEnum;
 import com.samso.linkjoa.core.utility.DateTimeUtil;
 import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
-import com.samso.linkjoa.domain.member.Member;
+import com.samso.linkjoa.member.domain.entity.Member;
 import com.samso.linkjoa.main.application.port.out.TotalShareRepository;
 import com.samso.linkjoa.main.domain.entity.TotalShare;
 import com.samso.linkjoa.share.application.port.out.ShareRepository;

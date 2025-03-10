@@ -1,12 +1,9 @@
-package com.samso.linkjoa.infrastructure.mail;
+package com.samso.linkjoa.core.infrastructure.mail;
 
-import com.samso.linkjoa.domain.mail.MailSender;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 @AllArgsConstructor

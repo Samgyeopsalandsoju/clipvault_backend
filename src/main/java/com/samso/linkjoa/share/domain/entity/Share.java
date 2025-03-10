@@ -1,7 +1,7 @@
 package com.samso.linkjoa.share.domain.entity;
 
 
-import com.samso.linkjoa.domain.member.Member;
+import com.samso.linkjoa.member.domain.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

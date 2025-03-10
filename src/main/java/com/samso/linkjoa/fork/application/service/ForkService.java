@@ -5,7 +5,7 @@ import com.samso.linkjoa.clip.domain.entity.Clip;
 import com.samso.linkjoa.core.common.commonEnum.CreateLimitEnum;
 import com.samso.linkjoa.core.common.exception.ApplicationInternalException;
 import com.samso.linkjoa.core.springSecurity.JwtUtil;
-import com.samso.linkjoa.domain.member.Member;
+import com.samso.linkjoa.member.domain.entity.Member;
 import com.samso.linkjoa.fork.application.port.out.repository.ForkRepository;
 import com.samso.linkjoa.fork.domain.ForkEnum;
 import com.samso.linkjoa.fork.domain.entity.Fork;
