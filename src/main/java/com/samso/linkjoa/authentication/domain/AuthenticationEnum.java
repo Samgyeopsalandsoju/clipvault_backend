@@ -1,4 +1,4 @@
-package com.samso.linkjoa.domain.Authentication;
+package com.samso.linkjoa.authentication.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
