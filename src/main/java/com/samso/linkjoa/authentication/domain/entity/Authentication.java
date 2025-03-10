@@ -1,4 +1,4 @@
-package com.samso.linkjoa.domain.Authentication;
+package com.samso.linkjoa.authentication.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,10 +22,7 @@ public class Authentication {
 
         String authKey = UUID.randomUUID().toString();
         long generateCode = ThreadLocalRandom.current().nextInt(100000, 1000000);
-        System.out.println("mail : " + mail);
-        System.out.println("code : " + generateCode);
 
         return new Authentication(authKey, mail, generateCode);
-
     }
 }
