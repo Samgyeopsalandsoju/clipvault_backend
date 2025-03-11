@@ -21,13 +21,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ApplicationInternalException.class)
     public FailResponse handleServiceException(ApplicationInternalException e){
-        log.info("Fail: [{}] : {}",
+        log.warn("Fail: [{}] : {}",
                 e.getCode(), e.getMessage());
         return new FailResponse(e.getCode());
     }
     @ExceptionHandler(UsernameNotFoundException.class)
     public ErrorResponse handleUsernameNotFoundException(Exception e){
-        log.info("Exception: {} ({}:{} Line)"
+        log.warn("Exception: {} ({}:{} Line)"
                 , e.toString(),e.getStackTrace()[0].getClassName(), e.getStackTrace()[0].getLineNumber());
         return new ErrorResponse(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse handleBadCredentialsException(Exception e){
-        log.error("Exception: {} ({}:{} Line)"
+        log.warn("Exception: {} ({}:{} Line)"
                 , e.toString(), e.getStackTrace()[0].getClassName(), e.getStackTrace()[0].getLineNumber());
         return new ErrorResponse(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
