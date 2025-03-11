@@ -4,6 +4,7 @@ import com.samso.linkjoa.core.common.response.ErrorResponse;
 import com.samso.linkjoa.core.common.response.FailResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,34 +19,31 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private boolean stackTrace;
-
-//    @ExceptionHandler(DataIntegrityViolationException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleDataIntegrityViolationException(Exception e){
-//        return new ErrorResponse(e.getMessage());
-//    }
-
     @ExceptionHandler(ApplicationInternalException.class)
     public FailResponse handleServiceException(ApplicationInternalException e){
-
-        //TODO 로그추가
+        log.info("Fail: [{}] : {}",
+                e.getCode(), e.getMessage());
         return new FailResponse(e.getCode());
     }
     @ExceptionHandler(UsernameNotFoundException.class)
     public ErrorResponse handleUsernameNotFoundException(Exception e){
+        log.info("Exception: {} ({}:{} Line)"
+                , e.toString(),e.getStackTrace()[0].getClassName(), e.getStackTrace()[0].getLineNumber());
+        return new ErrorResponse(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+    /* 로그인실패 */
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleBadCredentialsException(Exception e){
+        log.error("Exception: {} ({}:{} Line)"
+                , e.toString(), e.getStackTrace()[0].getClassName(), e.getStackTrace()[0].getLineNumber());
         return new ErrorResponse(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
     /*공통처리*/
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleBadReqExceptions(Exception e, WebRequest web) {
-        List<StackTraceElement> stactTraces = null;
-        if(stackTrace){
-            stactTraces = Arrays.asList(e.getStackTrace());
-        }
-
-        e.printStackTrace();
+        log.error("Exception : {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
