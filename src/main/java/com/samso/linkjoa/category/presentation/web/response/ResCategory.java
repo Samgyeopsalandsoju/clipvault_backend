@@ -9,6 +9,6 @@ import lombok.*;
 public class ResCategory {
     private String id;
     private String name;
-    private int color;
+    private String color;
     private int order;
 }

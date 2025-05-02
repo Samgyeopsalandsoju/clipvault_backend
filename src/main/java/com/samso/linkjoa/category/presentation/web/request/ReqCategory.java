@@ -7,6 +7,6 @@ public class ReqCategory {
 
     String id;
     String name;
-    int color;
+    String color;
     int sortOrder;
 }
