@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class ResFork {
 
     private long id;
-    private long categoryColor;
+    private String categoryColor;
     private String categoryName;
     private String clipLink;
     private String clipTitle;

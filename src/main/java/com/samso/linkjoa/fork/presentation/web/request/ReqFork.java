@@ -16,7 +16,7 @@ public class ReqFork {
     private String clipTitle;
     private String clipLink;
     private String categoryName;
-    private int categoryColor;
+    private String categoryColor;
     private long forkId;
 
     public Fork toEntity(Clip clip, Member member) {

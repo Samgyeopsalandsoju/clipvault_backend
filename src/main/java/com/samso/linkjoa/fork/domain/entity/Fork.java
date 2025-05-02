@@ -35,7 +35,7 @@ public class Fork {
     private String categoryName;
 
     @Column(name = "category_color", nullable = false, length = 255)
-    private int categoryColor;
+    private String categoryColor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
