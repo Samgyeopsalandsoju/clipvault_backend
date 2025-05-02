@@ -17,6 +17,7 @@ import com.samso.linkjoa.member.domain.entity.Member;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +58,7 @@ public class CategoryService implements GetCategoryInfoUseCase, EditCategoryInfo
         if(reqCategoryList.size() > CreateLimitEnum.CATEGORY.getValue()){
             throw new ApplicationInternalException(String.valueOf(CreateLimitEnum.OVER.getValue()), "Over the maximum limit of Category");
         }
+
         List<Category> editCategoryList = IntStream.iterate(reqCategoryList.size() -1, i -> i>=0, i -> i-1)
                         .mapToObj(i ->{
                             ReqCategory reqCategory = reqCategoryList.get(i);
@@ -102,5 +104,49 @@ public class CategoryService implements GetCategoryInfoUseCase, EditCategoryInfo
                                     CategoryEnum.DELETE_CATEGORY_INFO_EMPTY.getValue(), "Delete Data Empty"
                             ));
         return CategoryEnum.DELETE_CATEGORY_SUCCESS.getValue();
+    }
+
+    @Override
+    @Transactional
+    public String createCategory(HttpServletRequest request, ReqCategory reqCategory) {
+
+        long memberId = jwtUtil.getMemberIdFromRequest(request);
+        Member member = entityManager.getReference(Member.class, memberId);
+
+        long myCategoryCount  = categoryRepository.countByMemberId(member.getId());
+
+        //카테고리 갯수 제한
+        if(myCategoryCount >= CreateLimitEnum.CATEGORY.getValue()){
+            throw new ApplicationInternalException(String.valueOf(CreateLimitEnum.OVER.getValue()), "Over the maximum limit of Category");
+        }
+        //정렬순서
+        int sortOrder = findSortMaxOrder(member);
+        Category createCategoryInfo = Category.builder()
+                                    .id(reqCategory.getId())
+                                    .name(reqCategory.getName())
+                                    .color(reqCategory.getColor())
+                                    .sortOrder(sortOrder)
+                                    .member(member)
+                                    .build();
+
+        categoryRepository.save(createCategoryInfo);
+        return CategoryEnum.CREATE_CATEGORY_SUCCESS.getValue();
+    }
+
+    @Override
+    @Transactional
+    public String modifyCategory(HttpServletRequest request, ReqCategory reqCategory) {
+
+        Category categoryInfo = categoryRepository.findById(reqCategory.getId())
+                .orElseThrow(() -> new ApplicationInternalException(CategoryEnum.NOT_FOUND_CATEGORY.getValue(), "Not Found Modify Category Info"));
+
+        categoryInfo.modifyCategory(modelMapper.map(reqCategory, Category.class));
+
+        return CategoryEnum.MODIFY_CATEGORY_SUCCESS.getValue();
+    }
+    private int findSortMaxOrder(Member member){
+        return categoryRepository.findMaxSortOrderByMemberId(member.getId())
+                .map(max -> ++max)
+                .orElse(0);
     }
 }

@@ -35,4 +35,16 @@ public class CategoryController {
 
         return deleteCategoryInfoUseCase.deleteCategoryById(request, categoryId);
     }
+
+    @PostMapping("/v1/category/create")
+    public String createCategory(HttpServletRequest request, @RequestBody ReqCategory reqCategory){
+
+        return editCategoryInfoUseCase.createCategory(request, reqCategory);
+    }
+
+    @PatchMapping("/v1/category/modify")
+    public String modifyCategory(HttpServletRequest request, @RequestBody ReqCategory reqCategory){
+
+        return editCategoryInfoUseCase.modifyCategory(request, reqCategory);
+    }
 }

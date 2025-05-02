@@ -8,4 +8,8 @@ import java.util.List;
 public interface EditCategoryInfoUseCase {
 
     String editCategoryListInfo(HttpServletRequest request, List<ReqCategory> reqCategoryList);
+
+    String createCategory(HttpServletRequest request, ReqCategory reqCategory);
+
+    String modifyCategory(HttpServletRequest request, ReqCategory reqCategory);
 }
