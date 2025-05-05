@@ -49,7 +49,7 @@ public class ClipController {
 
     @PatchMapping("/v1/clip/modify")
     public @ResponseBody String clipModify(HttpServletRequest request, @RequestBody ReqClip reqClip){
-        //test
+
         return modifyClipUseCase.modifyClip(reqClip);
     }
 
